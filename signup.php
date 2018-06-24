@@ -35,12 +35,14 @@
 
                 <div class="field">
                     <label for="firstname">First Name:</label>
-                    <input required type="text" id="firstname" name="firstname" value="" placeholder="First Name"  class="login"/>
+                    <input required type="text" id="firstname" name="firstname" value="" placeholder="First Name"
+                           class="login"/>
                 </div> <!-- /field -->
 
                 <div class="field">
                     <label for="lastname">Last Name:</label>
-                    <input required type="text" id="lastname" name="lastname" value="" placeholder="Last Name" class="login"/>
+                    <input required type="text" id="lastname" name="lastname" value="" placeholder="Last Name"
+                           class="login"/>
                 </div> <!-- /field -->
 
 
@@ -51,7 +53,8 @@
 
                 <div class="field">
                     <label for="password">Password:</label>
-                    <input required type="password" id="password" name="password" value="" placeholder="Password" class="login"/>
+                    <input required type="password" id="password" name="password" value="" placeholder="Password"
+                           class="login"/>
                 </div> <!-- /field -->
 
                 <div class="field">
@@ -67,10 +70,23 @@
                     </select>
                 </div> <!-- /field -->
 
+                <div id="stu" hidden>
+                    <div class="field">
+                        <label for="confirm_password">Course:</label>
+                        <input type="text" id="course" name="course" value=""
+                               placeholder="Course" class="login"/>
+                    </div> <!-- /field -->
+
+                    <div class="field">
+                        <label for="confirm_password">Year:</label>
+                        <input type="number" id="year" name="year" value=""
+                               placeholder="Year" class="login"/>
+                    </div> <!-- /field -->
+                </div>
+
             </div> <!-- /login-fields -->
 
             <div class="pull-left">
-				
 
 
                 <a href="index.php" class="button btn btn-primary btn-large">Login</a>
@@ -89,10 +105,21 @@
 </div> <!-- /account-container -->
 
 
-<script src="js/jquery-1.7.2.min.js"></script>
-<script src="js/bootstrap.js"></script>
+<script src="admin/js/jquery-1.7.2.min.js"></script>
+<script src="admin/js/bootstrap.js"></script>
 
-<script src="js/signin.js"></script>
+<script src="admin/js/signin.js"></script>
+
+<script>
+    function show() {
+        $('#stu').change(function () {
+            $id = $(this).val();
+            if($id === "Student"){
+                $('stu').removeAttribute(hidden);
+            }
+        });
+    }
+</script>
 
 </body>
 
