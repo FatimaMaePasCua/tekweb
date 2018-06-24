@@ -64,13 +64,13 @@
                 </div> <!-- /field -->
 
                 <div class="field">
-                    <select  id="stu" required class="form-inline" name="type">
+                    <select id="stu" required class="form-inline" name="type">
                         <option>Teacher</option>
                         <option>Student</option>
                     </select>
                 </div> <!-- /field -->
 
-                <div  hidden>
+                <div id="this" hidden>
                     <div class="field">
                         <label for="confirm_password">Course:</label>
                         <input type="text" id="course" name="course" value=""
@@ -115,10 +115,13 @@
 
         $(document).ready(function () {
             $('#stu').change(function () {
-                let val = $(this).val();
-                if(val === "Student"){
-                    $('stu').removeAttr('hidden');
+                $val = $(this).val();
+                if($val === "Student"){
+                    $('#this').removeAttr('hidden');
+                }else {
+                    $('#this').attr('hidden','hidden');
                 }
+
             });
 
         });

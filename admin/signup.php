@@ -24,12 +24,19 @@ if($pass != $pass2){
          ";
 }
 $type = $_POST['type'];
+$course = $_POST['course'];
+if(empty($course)){
+    $course = null;
+}
+$year = $_POST['year'];
+if(empty($year)){
+    $year = null;
+}
 
 
-
-$sql = "INSERT INTO users(firstname, lastname, idnumber,password, type) VALUES (?,?,?,?,?)";
+$sql = "INSERT INTO users(firstname, lastname, idnumber,password, type,course,year) VALUES (?,?,?,?,?,?,?)";
 $st = $conn->prepare($sql);
-$st->bind_param('ssiss',$firstname,$lastname,$id,$pass,$type);
+$st->bind_param('ssisssi',$firstname,$lastname,$id,$pass,$type,$course,$year);
 
 if($st->execute()){
     $m="Registration Successful!";
