@@ -64,13 +64,13 @@
                 </div> <!-- /field -->
 
                 <div class="field">
-                    <select required class="form-inline" name="type">
+                    <select  id="stu" required class="form-inline" name="type">
                         <option>Teacher</option>
                         <option>Student</option>
                     </select>
                 </div> <!-- /field -->
 
-                <div id="stu" hidden>
+                <div  hidden>
                     <div class="field">
                         <label for="confirm_password">Course:</label>
                         <input type="text" id="course" name="course" value=""
@@ -111,14 +111,18 @@
 <script src="admin/js/signin.js"></script>
 
 <script>
-    function show() {
-        $('#stu').change(function () {
-            $id = $(this).val();
-            if($id === "Student"){
-                $('stu').removeAttribute(hidden);
-            }
+
+
+        $(document).ready(function () {
+            $('#stu').change(function () {
+                let val = $(this).val();
+                if(val === "Student"){
+                    $('stu').removeAttr('hidden');
+                }
+            });
+
         });
-    }
+
 </script>
 
 </body>
