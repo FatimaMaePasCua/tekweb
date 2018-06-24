@@ -26,39 +26,45 @@
 
     <div class="content clearfix">
 
-        <form action="#" method="post">
+        <form action="admin/signup.php" method="post">
 
-            <h1>Signup for Free Account</h1>
+            <h1>Signup</h1>
 
             <div class="login-fields">
 
-                <p>Create your free account:</p>
 
                 <div class="field">
                     <label for="firstname">First Name:</label>
-                    <input type="text" id="firstname" name="firstname" value="" placeholder="First Name" class="login"/>
+                    <input required type="text" id="firstname" name="firstname" value="" placeholder="First Name"  class="login"/>
                 </div> <!-- /field -->
 
                 <div class="field">
                     <label for="lastname">Last Name:</label>
-                    <input type="text" id="lastname" name="lastname" value="" placeholder="Last Name" class="login"/>
+                    <input required type="text" id="lastname" name="lastname" value="" placeholder="Last Name" class="login"/>
                 </div> <!-- /field -->
 
 
                 <div class="field">
-                    <label for="email">Email Address:</label>
-                    <input type="text" id="email" name="email" value="" placeholder="Email" class="login"/>
+                    <label for="email">ID Number</label>
+                    <input required type="text" id="email" name="idnumber" value="" placeholder="ID" class="login"/>
                 </div> <!-- /field -->
 
                 <div class="field">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" value="" placeholder="Password" class="login"/>
+                    <input required type="password" id="password" name="password" value="" placeholder="Password" class="login"/>
                 </div> <!-- /field -->
 
                 <div class="field">
                     <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" id="confirm_password" name="confirm_password" value=""
+                    <input required type="password" id="confirm_password" name="confirm_password" value=""
                            placeholder="Confirm Password" class="login"/>
+                </div> <!-- /field -->
+
+                <div class="field">
+                    <select required class="form-inline" name="type">
+                        <option>Teacher</option>
+                        <option>Student</option>
+                    </select>
                 </div> <!-- /field -->
 
             </div> <!-- /login-fields -->
@@ -72,10 +78,7 @@
             </div> <!-- .actions -->
 
             <div class="pull-right">
-
-
-
-                <button class="button btn btn-primary btn-large">Register</button>
+                <input type="submit" class="button btn btn-primary btn-large" value="Register">
 
             </div> <!-- .actions -->
 

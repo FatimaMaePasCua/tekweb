@@ -29,7 +29,7 @@
 
 	<div class="content clearfix">
 
-		<form action="#" method="post">
+		<form action="admin/login.php" method="post">
 
             <div class="text-center">
 			    <h1>Member Login</h1>
@@ -40,12 +40,12 @@
 
 				<div class="field">
 					<label for="username">Username</label>
-					<input type="text" id="username" name="username" value="" placeholder="Username" class="login username-field" />
+					<input required type="number" id="username" name="idnumber" value="" placeholder="ID #" class="login username-field" />
 				</div> <!-- /field -->
 
 				<div class="field">
 					<label for="password">Password:</label>
-					<input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field"/>
+					<input required type="password" id="password" name="password" value="" placeholder="Password" class="login password-field"/>
 				</div> <!-- /password -->
 
 			</div> <!-- /login-fields -->
@@ -55,7 +55,7 @@
 
 			</div> <!-- .actions -->
             <div class="pull-right">
-                <button class="button btn btn-success btn-large">Sign In</button>
+                <input type="submit" class="button btn btn-success btn-large" VALUE="Sign In">
 
             </div> <!-- .actions -->
 
