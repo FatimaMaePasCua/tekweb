@@ -54,7 +54,7 @@
 
             </div> <!-- .actions -->
             <div class="pull-right">
-                <button class="button btn btn-success btn-large">Sign In</button>
+                <a href="signup.php" class="button btn btn-success btn-large">Sign In</a>
 
             </div> <!-- .actions -->
 
