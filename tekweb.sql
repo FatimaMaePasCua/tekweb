@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 25, 2018 at 03:26 AM
+-- Generation Time: Jun 25, 2018 at 03:45 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -51,6 +51,22 @@ CREATE TABLE IF NOT EXISTS `departments` (
   `deptID` int(11) NOT NULL AUTO_INCREMENT,
   `department` varchar(150) NOT NULL,
   PRIMARY KEY (`deptID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studentclasses`
+--
+
+DROP TABLE IF EXISTS `studentclasses`;
+CREATE TABLE IF NOT EXISTS `studentclasses` (
+  `regstdID` int(11) NOT NULL AUTO_INCREMENT,
+  `classID` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL,
+  `studentID` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`regstdID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
