@@ -42,5 +42,24 @@ app.post('/createClass',function(req, res){
 	});
 });
 
+app.get('/grades',function(req, res){
+	var userID = 8;
+	var sql = "Select * from classes where userID = ? AND status = 'active'";
+
+  	connection.query(sql,[userID], function (err, result) {
+		if (err) throw err;
+		res.render('grades',{classes: result});
+	});
+});
+
+app.get('/announcements',function(req, res){
+	var userID = 8;
+	var sql = "Select * from classes where userID = ? AND status = 'active'";
+
+  	connection.query(sql,[userID], function (err, result) {
+		if (err) throw err;
+		res.render('announcements',{classes: result});
+	});
+});
 
 app.listen(3000, () => console.log('Listening on port 3000!'))

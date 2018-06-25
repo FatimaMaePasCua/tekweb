@@ -1,0 +1,70 @@
+<%include partials/header.ejs%>
+  <section class="menu-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="navbar-collapse collapse ">
+                        <ul id="menu-top" class="nav navbar-nav navbar-right">
+                                <li><a href="/classes">Classes</a></li>
+                             <li><a class="menu-top-active" href="/grades">Grades</a></li>
+                             <li><a href="/announcements">Announcements</a></li>
+                            <li><a href="blank.html">Blank Page</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- MENU SECTION END-->
+    <div class="content-wrapper">
+        <div class="container">
+              <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-head-line">Grades </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                           <!--   Basic Table  -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Grades
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Class Code</th>
+                                            <th>Preliminary</th>
+                                            <th>Midterms </th>
+                                            <th>Tentative Final</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            		<% if(classes.length !== 0){ classes.forEach(function(c){%>
+                                        <tr>
+                                            <td><%=c.classCode%></td>
+                                            <td><a href="">Upload File</a></td>
+                                            <td><a href="">Upload File</a></td>
+                                            <td><a href="">Upload File</a>
+                                            </td>
+                                        </tr>
+							        	<% })}else{%>
+							        	<tr>
+                                            <td>No records available.</td>
+                                        </tr>
+                               		<%}%>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <!-- CONTENT-WRAPPER SECTION END-->
+<%include partials/footer.ejs%>

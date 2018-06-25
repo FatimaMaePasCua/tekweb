@@ -1,4 +1,23 @@
 <%include partials/header.ejs%>
+  <section class="menu-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="navbar-collapse collapse ">
+                        <ul id="menu-top" class="nav navbar-nav navbar-right">
+                            <li><a class="menu-top-active"  href="/classes">Classes</a></li>
+                             <li><a href="/grades">Grades</a></li>
+                             <li><a href="/announcements">Announcements</a></li>
+                            <li><a href="blank.html">Blank Page</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- MENU SECTION END-->
     <div class="content-wrapper">
         <div class="container">
               <div class="row">
@@ -19,7 +38,8 @@
                                     <thead>
                                         <tr>
                                             <th>Class Code</th>
-                                            <th>No. of students enrolled: </th>
+                                            <th>Subject </th>
+                                            <th>No. of students enrolled </th>
                                             <th>Post Update</th>
                                             <th>Mange</th>
                                         </tr>
@@ -27,13 +47,15 @@
                                     <tbody>
                             		<% if(classes.length !== 0){ classes.forEach(function(c){%>
                                         <tr>
-                                            <td><%=c.classCode%></td>
-                                            <td><%=c.studentCount%></td>
-                                            <td><a href="">Assignment</a>
+                                            <td width="15%"><%=c.classCode%></td>
+                                            <td width="20%"><%=c.subject%></td>
+                                            <td width="15%"><%=c.studentCount%></td>
+                                            <td width="25%"><a href="">Assignments</a>
                                             	<br>
                                             	<a href="">Announcements</a>
                                             </td>
-                                            <td><a href="">Delete</a></td>
+                                            <td width="25%">
+                                            	<a href="">Delete</a></td>
                                         </tr>
 							        	<% })}else{%>
 							        	<tr>
@@ -56,19 +78,19 @@
                             <form method="POST" action="/createClass" role="form">
                                         <div class="form-group">
                                             <label class="control-label" for="success">Class Code</label>
-                                            <input name="classCode" type="text" class="form-control"/>
+                                            <input required name="classCode" min='0' type="number" class="form-control"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="warning">Subject</label>
-                                            <input name="subject" type="text" class="form-control"/>
+                                            <input required name="subject" type="text" class="form-control"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="error">Code (to be given to students)</label>
-                                            <input name="genCode" type="text" class="form-control"/>
+                                            <input required name="genCode" type="text" class="form-control"/>
                                         </div>
                                         <div class="pull-right">
   											<button type="submit" class="btn btn-success">Submit</button>
-  											<button type="submit" class="btn btn-success">Cance</button>
+  											<button type="reset" class="btn btn-danger">Cancel</button>
   										</div>
 
                                     </form>
