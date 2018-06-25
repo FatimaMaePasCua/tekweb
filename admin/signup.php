@@ -34,9 +34,14 @@ if(empty($year)){
 }
 $s = "pending";
 
-$sql = "INSERT INTO users(firstname, lastname, idnumber,password, type,course,year,status) VALUES (?,?,?,?,?,?,?,?)";
+$dpt = $_POST['dpt'];
+if(empty($dpt)){
+    $dpt = null;
+}
+
+$sql = "INSERT INTO users(firstname, lastname, idnumber,password, type,course,year,status,department) VALUES (?,?,?,?,?,?,?,?,?)";
 $st = $conn->prepare($sql);
-$st->bind_param('ssisssis',$firstname,$lastname,$id,$pass,$type,$course,$year,$s);
+$st->bind_param('ssisssiss',$firstname,$lastname,$id,$pass,$type,$course,$year,$s,$dpt);
 
 if($st->execute()){
     $m="Registration Successful!";
