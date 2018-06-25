@@ -33,16 +33,9 @@
          ps.executeUpdate();
          
          out.println("<script type=\"text/javascript\">");
-         out.println("alert('Success!');");
          out.println("location='classes.jsp';");
          out.println("</script>");
      }
      
      
-     
-   
-    
-        
-    
-    
 %>

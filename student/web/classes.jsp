@@ -101,40 +101,36 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class=" text-primary">
-                                        <th>
-                                            ID
-                                        </th>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                            Type
-                                        </th>
-                                        <th>
-                                            
-                                        </th>
+                                        <th>Class Code</th>
+                                        <th>Subject</th>
+                                        <th>Instructor</th>
                                         </thead>
                                         <tbody>
-                                            
+                                            <%
+                                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tekweb","root","");
+                                                Statement st = con.createStatement();
+                                                Integer id =(Integer) session.getAttribute("ayd");
+                                                ResultSet rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE studentclasses.studentID = '" + id + "' AND studentclasses.status = 'registered'");
+                                                if(!rs.next()){
+                                                    out.print("Error");
+                                                }else{
+                                                    rs.beforeFirst();
+                                                    while(rs.next()){
+                                                        out.println("<tr><td>" + rs.getString("classCode"));
+                                                        out.println("</td><td>" + rs.getString("subject"));
+                                                        out.println("</td><td>" + rs.getString("firstname"));
+                                                        out.println("</td></tr>");
+                                                        
+                                                    }
+                                                }
+                                            %>
                                        
                                         
                                         </tbody>
                                     </table>
                                     <hr>
-                                    <form action="joinClass.jsp" method="post">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                              <div class="form-group">
-                                                <input type="text" name="code" class="form-control" placeholder="Code" style="width: 100px;" />
-                                              </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                              <div class="form-group">
-                                               <input type="submit" class="btn btn-info" value="Add Class">
-                                              </div>
-                                            </div>
-                                          </div>
-                                    </form>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Add Subject</button>
                                 </div>
                             </div>
                         </div>
@@ -145,6 +141,27 @@
         
             
             
+</div>
+                                            
+                                            <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form action="joinClass.jsp" method="post">
+        <div class="modal-body">
+            <input type="text" class="form-control" name="code" placeholder="Subject Code">
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary" value="Add">
+        </div>
+        </form>
+    </div>
+  </div>
 </div>
 <!--   Core JS Files   -->
 <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
