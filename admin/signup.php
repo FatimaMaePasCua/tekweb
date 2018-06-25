@@ -32,11 +32,11 @@ $year = $_POST['year'];
 if(empty($year)){
     $year = null;
 }
+$s = "pending";
 
-
-$sql = "INSERT INTO users(firstname, lastname, idnumber,password, type,course,year) VALUES (?,?,?,?,?,?,?)";
+$sql = "INSERT INTO users(firstname, lastname, idnumber,password, type,course,year,status) VALUES (?,?,?,?,?,?,?,?)";
 $st = $conn->prepare($sql);
-$st->bind_param('ssisssi',$firstname,$lastname,$id,$pass,$type,$course,$year);
+$st->bind_param('ssisssis',$firstname,$lastname,$id,$pass,$type,$course,$year,$s);
 
 if($st->execute()){
     $m="Registration Successful!";

@@ -22,9 +22,10 @@ $r = $res->fetch_row();
 if($res->num_rows > 0){
 
     $_SESSION['userID'] = $r[0];
-    $_SESSION['name'] = $r[1];
+    $_SESSION['username'] = $r[1];
+    $_SESSION['type'] = $r[2];
     if($r[2] == "admin"){
-        header('Location:users.php');
+        header('Location:index.php');
     }elseif ($r[2] == "Teacher"){
         $m="Awan pay TEACHER!";
         echo "
