@@ -62,4 +62,60 @@ app.get('/announcements',function(req, res){
 	});
 });
 
+app.get('/students/:classID',function(req, res){
+	var classID = req.params.classID;
+	var userID = 8;
+	var pending;
+	var registered;
+
+	var sql = `SELECT studentID,classes.classID,classCode,idnumber,CONCAT(firstname,' ',lastname) as name,studentclasses.status  FROM classes
+	inner join studentclasses on studentclasses.classID = classes.classID
+	inner join users on users.userID = studentclasses.studentID
+	where classes.userID = ? AND classes.classID = ? AND studentclasses.status = 'registered'`;
+
+  	connection.query(sql,[userID,classID], function (err, result) {
+		if (err) throw err;
+		registered = result;
+		var sql2 = `SELECT studentID,classes.classID,classCode,idnumber,CONCAT(firstname,' ',lastname) as name,studentclasses.status  FROM classes
+	inner join studentclasses on studentclasses.classID = classes.classID
+	inner join users on users.userID = studentclasses.studentID
+	where classes.userID = ? AND classes.classID = ? AND studentclasses.status = 'pending'`;
+
+  	connection.query(sql2,[userID,classID], function (err, result) {
+		if (err) throw err;
+		pending = result;
+  		
+		res.render('students',{pending: pending, registered: registered});
+
+	});
+	});
+
+app.get('/accept/:classID/:studentID',function(req, res){
+	var classID = req.params.classID;
+	var studentID = req.params.studentID;
+
+	var sql = "Update studentclasses set status='registered' where classID = ? AND studentID=?";
+
+  	connection.query(sql,[classID,studentID], function (err, result) {
+		if (err) throw err;
+		res.redirect('/students/'+classID);
+	});
+});
+
+app.get('/reject/:classID/:studentID',function(req, res){
+	var classID = req.params.classID;
+	var studentID = req.params.studentID;
+
+	var sql = "Update studentclasses set status='rejected' where classID = ? AND studentID=?";
+
+  	connection.query(sql,[classID,studentID], function (err, result) {
+		if (err) throw err;
+		res.redirect('/students/'+classID);
+	});
+});
+
+
+
+});
+
 app.listen(3000, () => console.log('Listening on port 3000!'))
