@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 25, 2018 at 03:45 AM
+-- Generation Time: Jun 25, 2018 at 04:17 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -36,9 +36,18 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `classCode` int(11) NOT NULL,
   `subject` varchar(250) NOT NULL,
   `genCode` varchar(250) NOT NULL,
+  `studentCount` int(3) NOT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'active',
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`classID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `classes`
+--
+
+INSERT INTO `classes` (`classID`, `classCode`, `subject`, `genCode`, `studentCount`, `status`, `userID`) VALUES
+(3, 9123, 'College Physics', 'asdfg12345', 0, 'active', 8);
 
 -- --------------------------------------------------------
 

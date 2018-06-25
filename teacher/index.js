@@ -9,25 +9,36 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.set('view engine','ejs');
 app.use(express.static('public'))
 
-app.get('/', (req, res) => res.send('Hello World!'));
+connection.connect(function(err) {
+  		if (err) throw err;
+  		console.log("Connected!");
+ 		
+});
+
+app.get('/', (req, res) => res.send(''));
+
+app.get('/classes',function(req, res){
+	var userID = 8;
+	var sql = "Select * from classes where userID = ? AND status = 'active'";
+
+  	connection.query(sql,[userID], function (err, result) {
+		if (err) throw err;
+		res.render('classes',{classes: result});
+	});
+});
 
 
-app.get('/classes',(req, res) => res.render('classes'));
 
 app.post('/createClass',function(req, res){
 	var classCode = req.body.classCode;
 	var subject = req.body.subject;
 	var genCode = req.body.genCode;
 	var userID = 8;
-	connection.connect(function(err) {
-  		if (err) throw err;
-  		console.log("Connected!");
- 		var sql = "INSERT INTO classes (classCode, subject, genCode, userID) VALUES (?,?,?,?)";
+	var sql = "INSERT INTO classes (classCode, subject, genCode, userID) VALUES (?,?,?,?)";
 
-  		connection.query(sql,[classCode,subject,genCode,userID], function (err, result) {
-			if (err) throw err;
-		   		res.redirect('/classes');
-	  		});
+  	connection.query(sql,[classCode,subject,genCode,userID], function (err, result) {
+		if (err) throw err;
+		res.redirect('/classes');
 	});
 });
 
