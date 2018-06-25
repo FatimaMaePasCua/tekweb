@@ -10,5 +10,5 @@ $num = $_GET['num'];
 
 $sql = "UPDATE users SET status = 'inactive' WHERE userID = '$num'";
 if($conn->query($sql)){
-    header('Location:users.php');
+    header('Location:index.php');
 }

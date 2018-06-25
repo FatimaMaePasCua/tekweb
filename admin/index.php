@@ -39,7 +39,7 @@
             <ul class="nav">
 
                 <li class="active">
-                    <a href="users.php">
+                    <a href="index.php">
                         <i class="now-ui-icons users_single-02"></i>
                         <p>Users</p>
                     </a>

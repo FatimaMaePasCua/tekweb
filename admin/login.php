@@ -35,13 +35,7 @@ if($res->num_rows > 0){
             </script>
          ";
     }elseif ($r[2] == "Student"){
-        $m="Awan pay STUDENT!";
-        echo "
-            <script type = 'text/javascript'>
-                alert('$m');
-                window.location.replace('../index.php');
-            </script>
-         ";
+        header('Location: //localhost:8080/student/classes.jsp?ayd=' . $r[0]);
     }else{
         $m="Who are you!";
         echo "
