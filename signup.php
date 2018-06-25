@@ -65,6 +65,7 @@
 
                 <div class="field">
                     <select id="stu" required class="form-inline" name="type">
+                        <option selected disabled>------</option>
                         <option>Teacher</option>
                         <option>Student</option>
                     </select>
@@ -82,6 +83,16 @@
                         <input type="number" id="year" name="year" value=""
                                placeholder="Year" class="login"/>
                     </div> <!-- /field -->
+                </div>
+
+                <div id="thas" hidden>
+                    <div class="field">
+                        <label for="confirm_password">Department:</label>
+                        <input type="text" id="course" name="dpt" value=""
+                               placeholder="Department" class="login"/>
+                    </div> <!-- /field -->
+
+
                 </div>
 
             </div> <!-- /login-fields -->
@@ -118,8 +129,14 @@
                 $val = $(this).val();
                 if($val === "Student"){
                     $('#this').removeAttr('hidden');
-                }else {
+                    $('#thas').attr('hidden','hidden');
+                }else if ($val === "Teacher"){
+                    $('#thas').removeAttr('hidden');
                     $('#this').attr('hidden','hidden');
+                }
+                else {
+                    $('#this').attr('hidden','hidden');
+                    $('#thas').attr('hidden','hidden');
                 }
 
             });
