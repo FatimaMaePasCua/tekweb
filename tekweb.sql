@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 25, 2018 at 04:17 AM
+-- Generation Time: Jun 26, 2018 at 02:57 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -27,6 +27,23 @@ USE `tekweb`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `assignments`
+--
+
+DROP TABLE IF EXISTS `assignments`;
+CREATE TABLE IF NOT EXISTS `assignments` (
+  `assignID` int(11) NOT NULL AUTO_INCREMENT,
+  `dateUploaded` date NOT NULL,
+  `dateOfSubmission` date NOT NULL,
+  `filename` varchar(150) NOT NULL,
+  `assignNumber` int(11) NOT NULL,
+  `classID` int(11) NOT NULL,
+  PRIMARY KEY (`assignID`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `classes`
 --
 
@@ -36,18 +53,19 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `classCode` int(11) NOT NULL,
   `subject` varchar(250) NOT NULL,
   `genCode` varchar(250) NOT NULL,
-  `studentCount` int(3) NOT NULL,
+  `studentCount` int(3) NOT NULL DEFAULT '0',
   `status` varchar(10) NOT NULL DEFAULT 'active',
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`classID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `classes`
 --
 
 INSERT INTO `classes` (`classID`, `classCode`, `subject`, `genCode`, `studentCount`, `status`, `userID`) VALUES
-(3, 9123, 'College Physics', 'asdfg12345', 0, 'active', 8);
+(3, 9123, 'College Physics', 'asdfg12345', 1, 'active', 8),
+(4, 9456, 'Personality Development', 'abcde1234', 1, 'active', 8);
 
 -- --------------------------------------------------------
 
@@ -76,7 +94,15 @@ CREATE TABLE IF NOT EXISTS `studentclasses` (
   `studentID` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`regstdID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `studentclasses`
+--
+
+INSERT INTO `studentclasses` (`regstdID`, `classID`, `status`, `studentID`, `timestamp`) VALUES
+(2, 3, 'registered', 9, '2018-06-25 10:32:05'),
+(3, 4, 'registered', 9, '2018-06-25 10:45:29');
 
 -- --------------------------------------------------------
 
@@ -97,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status` varchar(50) NOT NULL,
   `department` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -105,7 +131,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`userID`, `firstname`, `lastname`, `idnumber`, `password`, `type`, `course`, `year`, `status`, `department`) VALUES
 (1, 'admin', 'admin', 1, 'admin', 'admin', '', 0, '', NULL),
-(8, 'teacher', 'teacher', 123, 'teacher', 'Teacher', NULL, NULL, '', NULL);
+(8, 'teacher', 'teacher', 123, 'teacher', 'Teacher', NULL, NULL, '', NULL),
+(9, 'student', 'student', 2, 'student', 'Student', NULL, NULL, 'pending', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
