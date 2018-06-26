@@ -38,6 +38,7 @@
                                     <thead>
                                         <tr>
                                             <th>Class Code</th>
+                                            <th>Code</th>
                                             <th>Subject </th>
                                             <th>No. of students enrolled </th>
                                             <th>Post Update</th>
@@ -48,9 +49,10 @@
                             		<% if(classes.length !== 0){ classes.forEach(function(c){%>
                                         <tr>
                                             <td width="15%"><%=c.classCode%></td>
+                                            <td width="15%"><%=c.genCode%></td>
                                             <td width="20%"><%=c.subject%></td>
                                             <td width="15%"><%=c.studentCount%></td>
-                                            <td width="25%"><a href="">Assignments</a>
+                                            <td width="25%"><a href="/assignments/<%=c.classID%>">Assignments</a>
                                             	<br>
                                             	<a href="">Announcements</a>
                                             </td>
@@ -70,6 +72,7 @@
                         </div>
                     </div>
                     </div>
+                  
                     <div class="col-md-6">
                         <div class="panel panel-default">
                         <div class="panel-heading">

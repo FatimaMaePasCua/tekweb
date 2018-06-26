@@ -2,6 +2,12 @@ const express = require('express');
 const app = express();
 const connection = require('../connection');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+var fs = require('fs');
+var path = require('path');
+
+app.use(fileUpload());
+
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -98,7 +104,11 @@ app.get('/accept/:classID/:studentID',function(req, res){
 
   	connection.query(sql,[classID,studentID], function (err, result) {
 		if (err) throw err;
-		res.redirect('/students/'+classID);
+		var sql2 = "Update classes set studentCount=studentCount+1 where classID = ?";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+			res.redirect('/students/'+classID);
+		});
 	});
 });
 
@@ -113,9 +123,59 @@ app.get('/reject/:classID/:studentID',function(req, res){
 		res.redirect('/students/'+classID);
 	});
 });
+});
+app.post('/upload', function(req, res) {
+	var number;
+	var dateOfSubmission = req.body.date;
+	var classID = req.body.classID;
+	var dir = __dirname+'/uploads/assignments/'+classID+'/';
 
+	var sql = `SELECT count(assignID) as number FROM assignments WHERE classID = ?`;
 
+ 	if (!req.files)
+   		return res.status(400).send('No files were uploaded.');
 
+  		let assignment = req.files.assignment;
+		var extension = path.extname(assignment.name);
+
+	connection.query(sql,[classID], function (err, result) {
+			if (err) throw err;
+			number = result[0].number+1;
+		var filename = 'assignment#'+number+extension;
+
+	
+	var sql = `Insert INTO assignments (dateUploaded,dateOfSubmission,filename,assignNumber,classID)
+	VALUES(Date(NOW()),?,?,?,?)`;
+
+	if (!fs.existsSync(dir)){
+    	fs.mkdirSync(dir);
+	}
+   
+
+  	assignment.mv(dir+filename, function(err) {
+			if (err)
+    	  		return res.status(500).send(err);
+	});
+  	connection.query(sql,[dateOfSubmission,filename,(number),classID], function (err, result) {
+		if (err) throw err;
+			res.redirect('/assignments/'+classID);
+		});
+	});
+	
+
+	
+  
+});
+
+app.get('/assignments/:classID',function(req, res){
+	var classID = req.params.classID;
+	var userID = 8;
+	var sql = "Select * from classes where userID = ? AND status = 'active'";
+
+  	connection.query(sql,[userID], function (err, result) {
+		if (err) throw err;
+		res.render('assignments',{classes: result,classID: classID});
+	});
 });
 
 app.listen(3000, () => console.log('Listening on port 3000!'))
