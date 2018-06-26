@@ -18,7 +18,7 @@
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Assignments</h1>                        
+                        <h1 class="page-head-line">Assignments For class <%=classID%>: </h1>                        
                     </div>
                 </div>
                 <div class="row">
@@ -33,23 +33,28 @@
                               <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID Number</th>
-                                            <th>Name </th>
-                                            <th>Mange</th>
+                                            <th>Assignment Number</th>
+                                            <th>Assignment</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Date of Submission</th>
+                                            <th>Status</th>
+                                            <th>Manage</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <% if(classes.length !== 0){ classes.forEach(function(c){%>
+                                    <% if(assignments.length !== 0){ assignments.forEach(function(c){%>
                                         <tr>
-                                            <td><%=c.idnumber%></td>
-                                            <td><%=c.name%></td>
-                                            <td>
-                                                <a href="/accept/<%=c.classID%>/<%=c.studentID%>">Accept Student</a><br>
-                                                <a href="/reject/<%=c.classID%>/<%=c.studentID%>">Reject Sudent</a></td>
+                                            <td><%=c.assignNumber%></td>
+                                            <td><a href="/assignments/<%=c.classID%>/<%=c.filename%>" download><%=c.filename%></a></td>
+                                            <td><%=moment(c.dateUploaded).format("MMM DD YYYY, dddd")%></td>
+                                            <td><%=moment(c.dateOfSubmission).format("MMM DD YYYY, dddd")%></td>
+                                            <td><%=c.status%></td>
+                                            <td><a>Submissions</a></td>
+
                                         </tr>
                                         <% })}else{%>
                                         <tr>
-                                            <td>No Registered Students.</td>
+                                            <td>No Assignments.</td>
                                         </tr>
                                     <%}%>
                                     </tbody>

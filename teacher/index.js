@@ -3,6 +3,7 @@ const app = express();
 const connection = require('../connection');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const moment = require('moment');
 var fs = require('fs');
 var path = require('path');
 
@@ -13,7 +14,8 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.set('view engine','ejs');
-app.use(express.static('public'))
+app.use(express.static('public'));
+app.use(express.static('uploads'));
 
 connection.connect(function(err) {
   		if (err) throw err;
@@ -141,7 +143,7 @@ app.post('/upload', function(req, res) {
 	connection.query(sql,[classID], function (err, result) {
 			if (err) throw err;
 			number = result[0].number+1;
-		var filename = 'assignment#'+number+extension;
+		var filename = 'assignment'+number+extension;
 
 	
 	var sql = `Insert INTO assignments (dateUploaded,dateOfSubmission,filename,assignNumber,classID)
@@ -170,11 +172,11 @@ app.post('/upload', function(req, res) {
 app.get('/assignments/:classID',function(req, res){
 	var classID = req.params.classID;
 	var userID = 8;
-	var sql = "Select * from classes where userID = ? AND status = 'active'";
+	var sql = "Select * from assignments where classID =?";
 
-  	connection.query(sql,[userID], function (err, result) {
+  	connection.query(sql,[classID], function (err, result) {
 		if (err) throw err;
-		res.render('assignments',{classes: result,classID: classID});
+		res.render('assignments',{assignments: result,classID: classID,moment:moment});
 	});
 });
 
