@@ -18,7 +18,7 @@
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Assignments For class <%=classID%>: </h1>                        
+                        <h1 class="page-head-line">Assignments For <%=classes.classCode%> (<%=classes.subject%>) </h1>                        
                     </div>
                 </div>
                 <div class="row">
@@ -33,7 +33,7 @@
                               <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Assignment Number</th>
+                                            <th>#</th>
                                             <th>Assignment</th>
                                             <th>Date Uploaded</th>
                                             <th>Date of Submission</th>
@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button type='submit' class="btn btn-success" name="classID" value='<%=classID%>'>Upload</button>
+                                            <button type='submit' class="btn btn-success" name="classID" value='<%=classes.classID%>'>Upload</button>
                                         </div>
                                     </div>
                                 </div>

@@ -62,11 +62,13 @@ app.get('/grades',function(req, res){
 
 app.get('/announcements',function(req, res){
 	var userID = 8;
-	var sql = "Select * from classes where userID = ? AND status = 'active'";
+	var sql = `SELECT announcements.*,classCode FROM announcements
+	INNER JOIN classes on classes.classID = announcements.classID
+	WHERE classes.userID = ?`;
 
   	connection.query(sql,[userID], function (err, result) {
 		if (err) throw err;
-		res.render('announcements',{classes: result});
+		res.render('announcements',{announcement: result});
 	});
 });
 
@@ -176,8 +178,29 @@ app.get('/assignments/:classID',function(req, res){
 
   	connection.query(sql,[classID], function (err, result) {
 		if (err) throw err;
-		res.render('assignments',{assignments: result,classID: classID,moment:moment});
+		var assignments =  result;
+
+		var sql = "Select * from classes where classID =?";
+		connection.query(sql,[classID], function (err, result) {
+			if (err) throw err;
+			var classes = result[0];
+				res.render('assignments',{assignments: assignments,classes: classes,moment:moment});
+		});
 	});
 });
+
+app.post('/createAnnouncement', function(req, res) {
+	var dateOfValidity = req.body.date;
+	var subj = req.body.subj;
+	var announcement = req.body.announcement;
+	var classID = req.body.classID;
+	var sql = `Insert into announcements (subj,announcement,dateOfValidity,classID) VALUES(?,?,?,?)`;
+
+	connection.query(sql,[subj,announcement,dateOfValidity,classID], function (err, result) {
+		if(err) console.log(err);
+		res.redirect('/classes');
+	});
+});
+
 
 app.listen(3000, () => console.log('Listening on port 3000!'))

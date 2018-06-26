@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 26, 2018 at 02:57 AM
+-- Generation Time: Jun 26, 2018 at 06:38 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -27,6 +27,29 @@ USE `tekweb`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `announcements`
+--
+
+DROP TABLE IF EXISTS `announcements`;
+CREATE TABLE IF NOT EXISTS `announcements` (
+  `annID` int(11) NOT NULL AUTO_INCREMENT,
+  `subj` varchar(250) NOT NULL,
+  `announcement` text NOT NULL,
+  `dateOfValidity` date NOT NULL,
+  `classID` int(11) NOT NULL,
+  PRIMARY KEY (`annID`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `announcements`
+--
+
+INSERT INTO `announcements` (`annID`, `subj`, `announcement`, `dateOfValidity`, `classID`) VALUES
+(3, 'Exam day', ' Please bring 5 pieces of graphing on the exam day and do not forget to bring your OWN calculator', '2018-06-26', 3);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `assignments`
 --
 
@@ -37,9 +60,17 @@ CREATE TABLE IF NOT EXISTS `assignments` (
   `dateOfSubmission` date NOT NULL,
   `filename` varchar(150) NOT NULL,
   `assignNumber` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL DEFAULT 'ongoing',
   `classID` int(11) NOT NULL,
   PRIMARY KEY (`assignID`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `assignments`
+--
+
+INSERT INTO `assignments` (`assignID`, `dateUploaded`, `dateOfSubmission`, `filename`, `assignNumber`, `status`, `classID`) VALUES
+(18, '2018-06-26', '2018-06-26', 'assignment1.docx', 1, 'ongoing', 3);
 
 -- --------------------------------------------------------
 
