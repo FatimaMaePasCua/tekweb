@@ -46,13 +46,19 @@ app.post('/createClass',function(req, res){
 
   	connection.query(sql,[classCode,subject,genCode,userID], function (err, result) {
 		if (err) throw err;
-		res.redirect('/classes');
+		var sql = "INSERT INTO grades (classID) VALUES (?)";
+  		connection.query(sql,[result.insertId], function (err, result) {
+			if (err) throw err;
+				res.redirect('/classes');
+		});
 	});
 });
 
 app.get('/grades',function(req, res){
 	var userID = 8;
-	var sql = "Select * from classes where userID = ? AND status = 'active'";
+	var sql = `Select grades.*,grades.classID,classCode from grades 
+	inner join classes on grades.classID = classes.classID 
+	where userID = ? AND status = 'active'`;
 
   	connection.query(sql,[userID], function (err, result) {
 		if (err) throw err;
@@ -165,11 +171,39 @@ app.post('/upload', function(req, res) {
 			res.redirect('/assignments/'+classID);
 		});
 	});
-	
+});
+
+app.post('/uploadGrade', function(req, res) {
+	var classID = req.body.classID;
+	var term = req.body.term;
+	var dir = __dirname+'/uploads/grades/'+classID+'/';
+
+
+ 	if (!req.files)
+   		return res.status(400).send('No files were uploaded.');
+
+  		let grades = req.files.grade;
+		var extension = path.extname(grades.name);
+		var filename = term+extension;
 
 	
-  
-});
+
+	if (!fs.existsSync(dir)){
+    	fs.mkdirSync(dir);
+	}
+   
+
+  	grades.mv(dir+filename, function(err) {
+			if (err)
+    	  		return res.status(500).send(err);
+	});
+	var sql = `Update grades set `+term+`= ? where classID = ?`;
+		connection.query(sql,[filename,classID], function (err, result) {
+		if (err) throw err;
+			res.redirect('/grades');
+		});
+	});
+
 
 app.get('/assignments/:classID',function(req, res){
 	var classID = req.params.classID;
