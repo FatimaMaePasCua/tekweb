@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<web-app>
+....
+<context-param> 
+   <description>Location to store uploaded file</description> 
+   <param-name>file-upload</param-name> 
+   <param-value>
+      C:\wamp64\www\tekweb\teacher\uploads\submissions
+   </param-value> 
+</context-param>
+....
+</web-app>

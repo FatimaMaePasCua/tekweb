@@ -160,6 +160,7 @@
                                         <th>Instructor</th>
                                         <th>Assignment</th>
                                         <th>Deadline</th>
+                                        <th>Submit</th>
                                         </thead>
                                         <tbody>
                                             <%
@@ -175,6 +176,7 @@
                                                         out.println("</td><td>" + rs.getString("firstname"));
                                                         out.println("</td><td>" + "<a download href=http://localhost/tekweb/teacher/uploads/assignments/"+ rs.getInt("assignments.classID") + "/" + rs.getString("filename") + ">" + rs.getString("filename") + "</a>");
                                                         out.println("</td><td>" + rs.getString("dateOfSubmission"));
+                                                        out.println("</td><td>" + "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#upload'>Upload Assignment</button>");
                                                         out.println("</td></tr>");
                                                         
                                                     }
@@ -212,6 +214,26 @@
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary" value="Add">
+        </div>
+        </form>
+    </div>
+  </div>
+</div>
+                                            
+<div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form action = "uploadFile.jsp" method = "post" enctype = "multipart/form-data">
+        <div class="modal-body">
+            <input type = "file" name = "file" size = "50" />
+        </div>
+        <div class="modal-footer">
+          <input type = "submit" value = "Upload File" />
         </div>
         </form>
     </div>
