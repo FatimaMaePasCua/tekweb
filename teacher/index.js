@@ -222,6 +222,29 @@ app.get('/assignments/:classID',function(req, res){
 		});
 	});
 });
+app.get('/submissions/:assignID/:classID',function(req, res){
+	var assignID = req.params.assignID;
+	var classID = req.params.classID;
+	var userID = 8;
+	var sql = `Select *,submissions.filename as flnm from submissions 
+	inner join assignments on assignments.assignID = submissions.assignID
+	inner join classes on classes.classID = assignments.classID
+	inner join users on users.userID = submissions.studentID
+	where assignments.assignID =?`;
+
+  	connection.query(sql,[assignID], function (err, result) {
+		if (err) throw err;
+		var submissions =  result;
+
+		var sql = "Select * from classes inner join assignments on assignments.classID = classes.classID where classes.classID =?";
+		connection.query(sql,[classID], function (err, result) {
+			if (err) throw err;
+			var classes = result[0];
+				res.render('submissions',{submissions: submissions,classes: classes,moment:moment});
+		});
+	});
+});
+
 
 app.post('/createAnnouncement', function(req, res) {
 	var dateOfValidity = req.body.date;

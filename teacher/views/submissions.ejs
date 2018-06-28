@@ -18,14 +18,14 @@
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Assignments For <%=classes.classCode%> (<%=classes.subject%>) </h1>                        
+                        <h1 class="page-head-line">Assignment # <%=classes.assignNumber%> <br> <%=classes.classCode%> (<%=classes.subject%>) </h1>                        
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                         <div class="panel-heading">
-                                <button data-toggle="modal" class="btn btn-success" data-target="#assignments">Post Assignment</button>
+                                <button data-toggle="modal" class="btn btn-success" data-target="#assignments">Download All</button>
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -33,28 +33,24 @@
                               <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Assignment</th>
-                                            <th>Date Uploaded</th>
-                                            <th>Date of Submission</th>
-                                            <th>Status</th>
-                                            <th>Manage</th>
+                                            <th>Id number</th>
+                                            <th>Name</th>
+                                            <th>Date Submitted</th>
+                                            <th>Submission</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <% if(assignments.length !== 0){ assignments.forEach(function(c){%>
+                                    <% if(submissions.length !== 0){ submissions.forEach(function(c){%>
                                         <tr>
-                                            <td><%=c.assignNumber%></td>
-                                            <td><a href="/assignments/<%=c.classID%>/<%=c.filename%>" download><%=c.filename%></a></td>
-                                            <td><%=moment(c.dateUploaded).format("MMM DD YYYY, dddd")%></td>
-                                            <td><%=moment(c.dateOfSubmission).format("MMM DD YYYY, dddd")%></td>
-                                            <td><%=c.status%></td>
-                                            <td><a href="/submissions/<%=c.assignID%>/<%=c.classID%>">Submissions</a></td>
+                                            <td><%=c.idnumber%></td>
+                                            <td><%=c.firstname%> <%=c.lastname%></a></td>
+                                            <td><%=moment(c.dateSubmitted).format("MMM DD YYYY, dddd")%></td>
+                                            <td><a href="/submissions/<%=c.classID%>/<%=c.assignID%>/<%=c.flnm%>" download>Download File</a></td>
 
                                         </tr>
                                         <% })}else{%>
                                         <tr>
-                                            <td>No Assignments.</td>
+                                            <td>No Submissions.</td>
                                         </tr>
                                     <%}%>
                                     </tbody>
