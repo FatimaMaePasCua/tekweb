@@ -4,13 +4,29 @@
 <%@ page import = "org.apache.commons.fileupload.disk.*" %>
 <%@ page import = "org.apache.commons.fileupload.servlet.*" %>
 <%@ page import = "org.apache.commons.io.output.*" %>
+<%@page import="java.io.File"%>
+<%@ page import ="java.sql.*" %>
 
 <%
    File file ;
    int maxFileSize = 5000 * 1024;
    int maxMemSize = 5000 * 1024;
    ServletContext context = pageContext.getServletContext();
-   String filePath = "C:\\wamp64\\www\\tekweb\\teacher\\uploads\\submissions\\";
+   String a = request.getParameter("d");
+   Integer ayd =(Integer) session.getAttribute("ayd");
+   
+   
+   String classID = request.getParameter("id");
+   String assignID = request.getParameter("assignID");
+   
+   String filePath = "C:\\wamp64\\www\\tekweb\\teacher\\uploads\\submissions\\" + classID + "\\" + assignID + "\\";
+    // if the directory does not exist, create it
+   File dir = new File(filePath);
+   
+    if(!dir.exists()){
+        dir.mkdirs();
+    }
+    
 
    // Verify the content type
    String contentType = request.getContentType();
@@ -48,6 +64,14 @@
                // Get the uploaded file parameters
                String fieldName = fi.getFieldName();
                String fileName = fi.getName();
+               String ext = "";
+               int index = fileName.lastIndexOf(".");
+                if(index > 0){
+                               ext = fileName.substring(index+1);
+                               ext = ext.toLowerCase();
+                               
+                               fileName = ayd + "." + ext;
+                }
                boolean isInMemory = fi.isInMemory();
                long sizeInBytes = fi.getSize();
             
@@ -60,8 +84,24 @@
                   fileName.substring(fileName.lastIndexOf("\\")+1)) ;
                }
                fi.write( file ) ;
-               out.println("Uploaded Filename: " + filePath + 
-               fileName + "<br>");
+               
+               Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tekweb",
+                        "root", "");
+                
+
+                String sql = "INSERT INTO submissions(assignID,studentID) VALUES(?,?)";
+                PreparedStatement ps = null;
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, Integer.parseInt(assignID));
+                ps.setInt(2, Integer.parseInt(classID));
+                ps.executeUpdate();
+
+                     
+               out.println("<script type=\"text/javascript\">");
+                out.println("alert('Successfuly Uploaded!');");
+                out.println("location='notifications.jsp';");
+                out.println("</script>");
             }
          }
          out.println("</body>");
@@ -70,13 +110,9 @@
          System.out.println(ex);
       }
    } else {
-      out.println("<html>");
-      out.println("<head>");
-      out.println("<title>Servlet upload</title>");  
-      out.println("</head>");
-      out.println("<body>");
-      out.println("<p>No file uploaded</p>"); 
-      out.println("</body>");
-      out.println("</html>");
+      out.println("<script type=\"text/javascript\">");
+      out.println("alert('No File Uploaded!');");
+      out.println("location='notifications.jsp';");
+      out.println("</script>");
    }
 %>

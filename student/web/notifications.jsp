@@ -262,7 +262,7 @@
             var id = $(e.relatedTarget).data('id');
             var assignID = $(e.relatedTarget).data('assignid');
 
-            $('#formUpl').attr('action','uploadFIle.jsp?id='+id+'&&assignID='+assignID);
+            $('#formUpl').attr('action','uploadFile.jsp?id='+id+'&&assignID='+assignID);
 
         });
 
