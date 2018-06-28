@@ -129,8 +129,8 @@
                                                         out.println("</td><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
                                                         out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + "/" + rs.getString("Preliminary") + ">" + rs.getString("Preliminary") + "</a>");
-                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + rs.getString("Midterms") + ">" + rs.getString("Midterms") + "</a>");
-                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + rs.getString("Finals") + ">" + rs.getString("Finals") + "</a>");
+                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + "/" +rs.getString("Midterms") + ">" + rs.getString("Midterms") + "</a>");
+                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + "/" +rs.getString("Finals") + ">" + rs.getString("Finals") + "</a>");
                                                         out.println("</td></tr>");
                                                         
                                                     }
