@@ -149,6 +149,51 @@
                     </div>
                 </div>
             </div>
+                                            
+             <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title text-center">Class Invitations</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                        <th>Class Code</th>
+                                        <th>Subject</th>
+                                        <th>Instructor</th>
+                                        <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                rs = st.executeQuery("SELECT * FROM invitations JOIN classes ON invitations.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE invitations.studentID = '" + id + "' AND invitations.status = 'pending' ");
+                                                if(!rs.next()){
+                                                    out.print("No Classes Yet");
+                                                }else{
+                                                    rs.beforeFirst();
+                                                    while(rs.next()){
+                                                        out.println("<tr><td>" + rs.getString("classCode"));
+                                                        out.println("</td><td>" + rs.getString("subject"));
+                                                        out.println("</td><td>" + rs.getString("firstname"));
+                                                        out.println("</td><td>" + "<a href='accept.jsp?rid=" + rs.getInt("invtnID") + "&vID=" + rs.getInt("invitations.classID")+    "' class='btn btn-success'><i class='material-icons'>done</i><a href='reject.jsp?rid=" + rs.getInt("invtnID") + "' class='btn btn-success'><i class='material-icons'>close</i>");
+                                                        out.println("</td></tr>");
+                                                        
+                                                    }
+                                                }
+                                            %>
+                                       
+                                        
+                                        </tbody>
+                                    </table>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                               
         </div>
         
             
