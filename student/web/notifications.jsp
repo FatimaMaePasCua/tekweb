@@ -69,7 +69,7 @@
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="classes.jsp">
                         <i class="material-icons">content_paste</i>
                         <p>My Classes</p>
                     </a>
@@ -166,7 +166,7 @@
                                                 
                                                 rs = st.executeQuery("SELECT * FROM assignments inner join studentclasses on studentclasses.classID = assignments.classID JOIN classes on assignments.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE studentclasses.studentID ='" + id +"' AND dateOfSubmission <= date(now())");
                                                 if(!rs.next()){
-                                                    out.print("No Announcements");
+                                                    out.print("No Assignments");
                                                 }else{
                                                     rs.beforeFirst();
                                                     while(rs.next()){

@@ -14,6 +14,6 @@
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
     "moment": "^2.22.2",
-    "mysql": "^2.15.0"
+    "mysql": "file:node_modules/mysql"
   }
 }

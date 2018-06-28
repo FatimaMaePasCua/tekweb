@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 26, 2018 at 06:38 AM
+-- Generation Time: Jun 28, 2018 at 05:53 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -38,14 +38,14 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   `dateOfValidity` date NOT NULL,
   `classID` int(11) NOT NULL,
   PRIMARY KEY (`annID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `announcements`
 --
 
 INSERT INTO `announcements` (`annID`, `subj`, `announcement`, `dateOfValidity`, `classID`) VALUES
-(3, 'Exam day', ' Please bring 5 pieces of graphing on the exam day and do not forget to bring your OWN calculator', '2018-06-26', 3);
+(1, 'Test', 'test', '2018-06-28', 1);
 
 -- --------------------------------------------------------
 
@@ -63,14 +63,7 @@ CREATE TABLE IF NOT EXISTS `assignments` (
   `status` varchar(100) NOT NULL DEFAULT 'ongoing',
   `classID` int(11) NOT NULL,
   PRIMARY KEY (`assignID`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `assignments`
---
-
-INSERT INTO `assignments` (`assignID`, `dateUploaded`, `dateOfSubmission`, `filename`, `assignNumber`, `status`, `classID`) VALUES
-(18, '2018-06-26', '2018-06-26', 'assignment1.docx', 1, 'ongoing', 3);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -88,15 +81,14 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `status` varchar(10) NOT NULL DEFAULT 'active',
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`classID`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `classes`
 --
 
 INSERT INTO `classes` (`classID`, `classCode`, `subject`, `genCode`, `studentCount`, `status`, `userID`) VALUES
-(3, 9123, 'College Physics', 'asdfg12345', 1, 'active', 8),
-(4, 9456, 'Personality Development', 'abcde1234', 1, 'active', 8);
+(1, 9123, 'College Physics', 'abcd1234', 0, 'active', 8);
 
 -- --------------------------------------------------------
 
@@ -114,6 +106,29 @@ CREATE TABLE IF NOT EXISTS `departments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `grades`
+--
+
+DROP TABLE IF EXISTS `grades`;
+CREATE TABLE IF NOT EXISTS `grades` (
+  `gradesID` int(11) NOT NULL AUTO_INCREMENT,
+  `Preliminary` varchar(100) DEFAULT NULL,
+  `Midterms` varchar(100) DEFAULT NULL,
+  `Finals` varchar(100) DEFAULT NULL,
+  `classID` int(11) NOT NULL,
+  PRIMARY KEY (`gradesID`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grades`
+--
+
+INSERT INTO `grades` (`gradesID`, `Preliminary`, `Midterms`, `Finals`, `classID`) VALUES
+(1, 'Preliminary.txt', 'Midterms.txt', 'Finals.docx', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `studentclasses`
 --
 
@@ -125,15 +140,14 @@ CREATE TABLE IF NOT EXISTS `studentclasses` (
   `studentID` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`regstdID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `studentclasses`
 --
 
 INSERT INTO `studentclasses` (`regstdID`, `classID`, `status`, `studentID`, `timestamp`) VALUES
-(2, 3, 'registered', 9, '2018-06-25 10:32:05'),
-(3, 4, 'registered', 9, '2018-06-25 10:45:29');
+(1, 1, '', 8, '2018-06-28 05:00:55');
 
 -- --------------------------------------------------------
 
