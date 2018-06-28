@@ -4,10 +4,19 @@ const connection = require('../connection');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const moment = require('moment');
-var fs = require('fs');
-var path = require('path');
+const session = require('express-session')
+const fs = require('fs');
+const path = require('path');
 
 app.use(fileUpload());
+
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
 
 
 app.use(bodyParser.json()); // support json encoded bodies
@@ -23,17 +32,44 @@ connection.connect(function(err) {
  		
 });
 
-app.get('/', (req, res) => res.send(''));
+app.get('/', (req, res) => res.redirect('/classes'));
 
-app.get('/classes',function(req, res){
-	var userID = 8;
-	var sql = "Select * from classes where userID = ? AND status = 'active'";
-
-  	connection.query(sql,[userID], function (err, result) {
-		if (err) throw err;
-		res.render('classes',{classes: result});
+app.get('/index/:uid',function(req, res){
+	var userID = req.params.uid;
+	var sql = "Select * from users where userID = ?";
+  	connection.query(sql,[userID], function (err, result) {	
+  		if (err) throw err;
+  		req.session.userID = result[0].userID;
+  		req.session.userData = result[0];
+		res.redirect('/classes');
 	});
 });
+app.get('/logout',function(req,res){
+	req.session.destroy;
+	res.redirect('/unauthorizedAccess');
+})
+
+app.get('/classes',function(req, res){
+	var userID = req.session.userID;
+	if(userID){
+		var sql = "Select * from classes where userID = ? AND status = 'active'";
+
+  		connection.query(sql,[userID], function (err, result) {	
+			if (err) throw err;
+			res.render('classes',{classes: result});
+		});
+	}else{
+		res.redirect('/unauthorizedAccess')
+	}
+	
+});
+app.get('/unauthorizedAccess',function(req,res){
+	if(!req.session.userID){
+		res.render('unauthorizedAccess');
+	}else{
+		redirect('/classes');
+	}
+})
 
 
 
@@ -49,76 +85,96 @@ app.post('/createClass',function(req, res){
 		var sql = "INSERT INTO grades (classID) VALUES (?)";
   		connection.query(sql,[result.insertId], function (err, result) {
 			if (err) throw err;
+		var sql = "INSERT INTO transactions (action,userID) VALUES ('Class "+classCode+" has been created.',?)";
+  		connection.query(sql,[userID],function (err, result) {
+			if (err) throw err;
 				res.redirect('/classes');
+			});
 		});
 	});
 });
 
 app.get('/grades',function(req, res){
-	var userID = 8;
-	var sql = `Select grades.*,grades.classID,classCode from grades 
-	inner join classes on grades.classID = classes.classID 
-	where userID = ? AND status = 'active'`;
+	var userID = req.session.userID;
+	if(userID){
+		var sql = `Select grades.*,grades.classID,classCode from grades 
+		inner join classes on grades.classID = classes.classID 
+		where userID = ? AND status = 'active'`;
 
-  	connection.query(sql,[userID], function (err, result) {
+  		connection.query(sql,[userID], function (err, result) {
 		if (err) throw err;
-		res.render('grades',{classes: result});
-	});
+			res.render('grades',{classes: result});
+		});
+	}else{
+		res.redirect('/unauthorizedAccess')
+	}
 });
 
 app.get('/announcements',function(req, res){
 	var userID = 8;
-	var sql = `SELECT announcements.*,classCode FROM announcements
-	INNER JOIN classes on classes.classID = announcements.classID
-	WHERE classes.userID = ?`;
+	if(userID){
+		var sql = `SELECT announcements.*,classCode FROM announcements
+		INNER JOIN classes on classes.classID = announcements.classID
+		WHERE classes.userID = ?`;
 
-  	connection.query(sql,[userID], function (err, result) {
-		if (err) throw err;
-		res.render('announcements',{announcement: result});
-	});
+  		connection.query(sql,[userID], function (err, result) {
+			if (err) throw err;
+				res.render('announcements',{announcement: result});
+		});
+	}else{
+		res.redirect('/unauthorizedAccess')
+	}
 });
 
 app.get('/students/:classID',function(req, res){
 	var classID = req.params.classID;
-	var userID = 8;
+	var userID = req.session.userID;
 	var pending;
 	var registered;
+	if(userID){
 
-	var sql = `SELECT studentID,classes.classID,classCode,idnumber,CONCAT(firstname,' ',lastname) as name,studentclasses.status  FROM classes
-	inner join studentclasses on studentclasses.classID = classes.classID
-	inner join users on users.userID = studentclasses.studentID
-	where classes.userID = ? AND classes.classID = ? AND studentclasses.status = 'registered'`;
+		var sql = `SELECT studentID,classes.classID,classCode,idnumber,CONCAT(firstname,' ',lastname) as name,studentclasses.status  FROM classes
+		inner join studentclasses on studentclasses.classID = classes.classID
+		inner join users on users.userID = studentclasses.studentID
+		where classes.userID = ? AND classes.classID = ? AND studentclasses.status = 'registered'`;
 
-  	connection.query(sql,[userID,classID], function (err, result) {
-		if (err) throw err;
-		registered = result;
-		var sql2 = `SELECT studentID,classes.classID,classCode,idnumber,CONCAT(firstname,' ',lastname) as name,studentclasses.status  FROM classes
-	inner join studentclasses on studentclasses.classID = classes.classID
-	inner join users on users.userID = studentclasses.studentID
-	where classes.userID = ? AND classes.classID = ? AND studentclasses.status = 'pending'`;
+  		connection.query(sql,[userID,classID], function (err, result) {
+			if (err) throw err;
+				registered = result;
+			var sql2 = `SELECT studentID,classes.classID,classCode,idnumber,CONCAT(firstname,' ',lastname) as name,studentclasses.status  FROM classes
+			inner join studentclasses on studentclasses.classID = classes.classID
+			inner join users on users.userID = studentclasses.studentID
+			where classes.userID = ? AND classes.classID = ? AND studentclasses.status = 'pending'`;
 
-  	connection.query(sql2,[userID,classID], function (err, result) {
-		if (err) throw err;
-		pending = result;
+  			connection.query(sql2,[userID,classID], function (err, result) {
+				if (err) throw err;
+					pending = result;
   		
-		res.render('students',{pending: pending, registered: registered,classID: classID});
+				res.render('students',{pending: pending, registered: registered,classID: classID});
+			});
+		});
+	}else{
+		res.redirect('/unauthorizedAccess')
+	}
 
-	});
 	});
 	app.get('/inviteStudents/:classID',function(req, res){
-	var classID = req.params.classID;
-	var userID = 8;
+		var classID = req.params.classID;
+		var userID = req.session.userID;
+		if(userID){
+			var sql = `Select * from users 
+			left join studentclasses on studentID = users.userID
+			left join invitations on invitations.studentID = users.userID
+			where type='Student' and ((regstdID is null)  
+			AND (invtnID is null) OR (studentclasses.classID != ?)) group by users.userID`;
 
-	var sql = `Select * from users 
-left join studentclasses on studentID = users.userID
-left join invitations on invitations.studentID = users.userID
-where type='Student' and ((regstdID is null)  AND (invtnID is null) OR (studentclasses.classID != ?))`;
-
-  	connection.query(sql,[classID], function (err, result) {
-		if (err) throw err;
-		res.render('invitation',{students: result,classID: classID});
-
-	});
+  			connection.query(sql,[classID], function (err, result) {
+				if (err) throw err;
+				res.render('invitation',{students: result,classID: classID});
+			});
+  		}else{
+			res.redirect('/unauthorizedAccess')
+  		}
 	});
 
 app.get('/accept/:classID/:studentID',function(req, res){
@@ -132,8 +188,17 @@ app.get('/accept/:classID/:studentID',function(req, res){
 		var sql2 = "Update classes set studentCount=studentCount+1 where classID = ?";
 		connection.query(sql2,[classID], function (err, result) {
 			if (err) throw err;
+		var sql2 = "Select * from classes inner join studentclasses on studentclasses.classID = classes.classID inner join users on studentclasses.studentID = users.userID where studentclasses.classID =?";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+			var classes = result[0];
+		var sql2 = "Insert into transactions (action,userID) values('Student "+classes.idnumber+" has been accepted in class "+classes.classCode+".',?)";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
 			res.redirect('/students/'+classID);
 		});
+		});
+	});
 	});
 });
 app.get('/inviteSt/:studentID/:classID',function(req, res){
@@ -143,8 +208,23 @@ app.get('/inviteSt/:studentID/:classID',function(req, res){
 	var sql = "Insert into invitations (studentID,classID) values(?,?)";
 
   	connection.query(sql,[studentID,classID], function (err, result) {
-		if (err) throw err;
+	if (err) throw err;
+
+  	var sql2 = "Select * from classes inner join users on users.userID = classes.userID where classID=?";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+			var classes = result[0];
+				var sql2 = "Select * from users where userID=?";
+		connection.query(sql2,[studentID], function (err, result) {
+			if (err) throw err;
+			var student = result[0];
+		var sql2 = "Insert into transactions (action,userID) values('Teacher "+classes.idnumber+" invited student "+student.idnumber+" in class "+classes.classCode+".',?)";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
 			res.redirect('/inviteStudents/'+classID);
+		});
+		});
+	});
 	});
 });
 app.get('/reject/:classID/:studentID',function(req, res){
@@ -155,9 +235,17 @@ app.get('/reject/:classID/:studentID',function(req, res){
 
   	connection.query(sql,[classID,studentID], function (err, result) {
 		if (err) throw err;
+		var sql2 = "Select * from classes inner join studentclasses on studentclasses.classID = classes.classID inner join users on studentclasses.studentID = users.userID where studentclasses.classID =?";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+			var classes = result[0];
+		var sql2 = "Insert into transactions (action,userID) values('Student "+classes.idnumber+" has been rejected in class "+classes.classCode+".',?)";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
 		res.redirect('/students/'+classID);
 	});
-});
+	});
+	});
 });
 app.post('/upload', function(req, res) {
 	var number;
@@ -193,7 +281,17 @@ app.post('/upload', function(req, res) {
 	});
   	connection.query(sql,[dateOfSubmission,filename,(number),classID], function (err, result) {
 		if (err) throw err;
+				var sql2 = "Select * from assignments INNER JOIN classes on classes.classID = assignments.classID inner join users on users.userID = classes.userID  where assignments.classID =?";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+			var classes = result[0];
+		var sql2 = "Insert into transactions (action,userID) values('Teacher "+classes.idnumber+" uploaded an assignment in class "+classes.classCode+".',?)";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+
 			res.redirect('/assignments/'+classID);
+		});
+		});
 		});
 	});
 });
@@ -225,49 +323,66 @@ app.post('/uploadGrade', function(req, res) {
 	var sql = `Update grades set `+term+`= ? where classID = ?`;
 		connection.query(sql,[filename,classID], function (err, result) {
 		if (err) throw err;
+		var sql2 = "Select * from grades INNER JOIN classes on classes.classID = grades.classID inner join users on users.userID = classes.userID  where classes.classID =?";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+			var classes = result[0];
+		var sql2 = "Insert into transactions (action,userID) values('Teacher "+classes.idnumber+" uploaded "+term+" grade in class "+classes.classCode+".',?)";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
 			res.redirect('/grades');
+		});
+		});
 		});
 	});
 
 
 app.get('/assignments/:classID',function(req, res){
 	var classID = req.params.classID;
-	var userID = 8;
-	var sql = "Select * from assignments where classID =?";
+	var userID = req.session.userID;
+	if(userID){
+		var sql = "Select * from assignments where classID =?";
 
-  	connection.query(sql,[classID], function (err, result) {
-		if (err) throw err;
-		var assignments =  result;
-
-		var sql = "Select * from classes where classID =?";
-		connection.query(sql,[classID], function (err, result) {
+  		connection.query(sql,[classID], function (err, result) {
 			if (err) throw err;
-			var classes = result[0];
+			var assignments =  result;
+
+			var sql = "Select * from classes where classID =?";
+			connection.query(sql,[classID], function (err, result) {
+				if (err) throw err;
+				var classes = result[0];
 				res.render('assignments',{assignments: assignments,classes: classes,moment:moment});
+			});
 		});
-	});
+	}else{
+		res.redirect('/unauthorizedAccess')
+	}
 });
 app.get('/submissions/:assignID/:classID',function(req, res){
 	var assignID = req.params.assignID;
 	var classID = req.params.classID;
-	var userID = 8;
-	var sql = `Select *,submissions.filename as flnm from submissions 
-	inner join assignments on assignments.assignID = submissions.assignID
-	inner join classes on classes.classID = assignments.classID
-	inner join users on users.userID = submissions.studentID
-	where assignments.assignID =?`;
+	var userID = req.session.userID;
+	if(userID){
+		var sql = `Select *,submissions.filename as flnm from submissions 
+		inner join assignments on assignments.assignID = submissions.assignID
+		inner join classes on classes.classID = assignments.classID
+		inner join users on users.userID = submissions.studentID
+		where assignments.assignID =?`;
 
-  	connection.query(sql,[assignID], function (err, result) {
-		if (err) throw err;
-		var submissions =  result;
-
-		var sql = "Select * from classes inner join assignments on assignments.classID = classes.classID where classes.classID =?";
-		connection.query(sql,[classID], function (err, result) {
+  		connection.query(sql,[assignID], function (err, result) {
 			if (err) throw err;
-			var classes = result[0];
+			var submissions =  result;
+
+			var sql = "Select * from classes inner join assignments on assignments.classID = classes.classID where classes.classID =?";
+			connection.query(sql,[classID], function (err, result) {
+				if (err) throw err;
+				var classes = result[0];
 				res.render('submissions',{submissions: submissions,classes: classes,moment:moment});
+			});
 		});
-	});
+	}else{
+		res.redirect('/unauthorizedAccess')
+	}
 });
 
 
@@ -280,7 +395,17 @@ app.post('/createAnnouncement', function(req, res) {
 
 	connection.query(sql,[subj,announcement,dateOfValidity,classID], function (err, result) {
 		if(err) console.log(err);
+	var sql2 = "Select * from announcements INNER JOIN classes on classes.classID = announcements.classID inner join users on users.userID = classes.userID  where classes.classID =?";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+			var classes = result[0];
+		var sql2 = "Insert into transactions (action,userID) values('Teacher "+classes.idnumber+" created an announcement.',?)";
+		connection.query(sql2,[classID], function (err, result) {
+			if (err) throw err;
+
 		res.redirect('/classes');
+	});
+	});
 	});
 });
 

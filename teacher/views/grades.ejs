@@ -8,6 +8,8 @@
                                 <li><a href="/classes">Classes</a></li>
                              <li><a class="menu-top-active" href="/grades">Grades</a></li>
                              <li><a href="/announcements">Announcements</a></li>
+                             <li><a href="/logout">Logout</a></li>
+                             
                         </ul>
                     </div>
                 </div>
@@ -47,23 +49,32 @@
                                             <td><%=c.classCode%></td>
                                             <% if (c.Preliminary === null) {%>
                                             <td><a href="#" data-classID='<%=c.classID%>' data-term='Preliminary' data-toggle="modal" data-target="#postGrade">Input</a></td>
-                                            <%}else if(c.Midterms === null){%>
-                                            <td><a href="#" data-classID='<%=c.classID%>' data-term='Midterms' data-toggle="modal" data-target="#postGrade">Input</a></td>
-                                            <%}else if(c.Finals === null){%>
-                                            <td><a href="#" data-classID='<%=c.classID%>' data-term='Finals' data-toggle="modal" data-target="#postGrade">Input</a>
-                                            </td>
                                             <%}else{%>
                                              <td><a href="/grades/<%=c.classID%>/<%=c.Preliminary%>" download><%=c.Preliminary%></a> | <a href="#" data-classID='<%=c.classID%>' data-term='Preliminary' data-toggle="modal" data-target="#postGrade">Edit</a></td>
-                                             <td><a href="/grades/<%=c.classID%>/<%=c.Preliminary%>" download><%=c.Midterms%></a> | <a href="#" data-classID='<%=c.classID%>' data-term='Midterms' data-toggle="modal" data-target="#postGrade">Edit</a></td>
-                                             <td><a href="/grades/<%=c.classID%>/<%=c.Preliminary%>" download><%=c.Finals%></a> | <a href="#" data-classID='<%=c.classID%>' data-term='Finals' data-toggle="modal" data-target="#postGrade">Edit</a>
-                                            </td>   
                                             <%}%>
+
+                                            <%if(c.Midterms === null){%>
+                                            <td><a href="#" data-classID='<%=c.classID%>' data-term='Midterms' data-toggle="modal" data-target="#postGrade">Input</a></td>
+                                            <%}else{%>
+                                             <td><a href="/grades/<%=c.classID%>/<%=c.Midterms%>" download><%=c.Midterms%></a> | <a href="#" data-classID='<%=c.classID%>' data-term='Midterms' data-toggle="modal" data-target="#postGrade">Edit</a></td>
+                                            </td>
+                                            <%}%>
+
+                                            <%if(c.Finals === null){%>
+                                            <td><a href="#" data-classID='<%=c.classID%>' data-term='Finals' data-toggle="modal" data-target="#postGrade">Input</a>
+                                           <%}else{%>
+                                            <td><a href="/grades/<%=c.classID%>/<%=c.Finals%>" download><%=c.Finals%></a> | <a href="#" data-classID='<%=c.classID%>' data-term='Finals' data-toggle="modal" data-target="#postGrade">Edit</a>
+                                            </td>  
+                                            <%}%>
+                                        <%})%>
+
                                         </tr>
-							        	<% })}else{%>
+							        	<% }else{%>
 							        	<tr>
                                             <td>No records available.</td>
                                         </tr>
-                               		<%}%>
+                                    <%}%>
+
                                     </tbody>
                                 </table>
                                  <form ref='uploadForm' id='uploadForm' action='/uploadGrade' method='post' encType="multipart/form-data">
