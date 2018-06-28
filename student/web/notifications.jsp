@@ -176,7 +176,7 @@
                                                         out.println("</td><td>" + rs.getString("firstname"));
                                                         out.println("</td><td>" + "<a download href=http://localhost/tekweb/teacher/uploads/assignments/"+ rs.getInt("assignments.classID") + "/" + rs.getString("filename") + ">" + rs.getString("filename") + "</a>");
                                                         out.println("</td><td>" + rs.getString("dateOfSubmission"));
-                                                        out.println("</td><td>" + "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#upload'>Upload Assignment</button>");
+                                                        out.println("</td><td>" + "<button data-assignID=" +rs.getInt("assignments.assignID")+" data-id=" +rs.getInt("assignments.classID")+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#upload'>Upload Assignment</button>");
                                                         out.println("</td></tr>");
                                                         
                                                     }
@@ -228,7 +228,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <form action = "uploadFile.jsp" method = "post" enctype = "multipart/form-data">
+        <form id="formUpl" action = "uploadFile.jsp" method = "post" enctype = "multipart/form-data">
         <div class="modal-body">
             <input type = "file" name = "file" size = "50" />
         </div>
@@ -239,6 +239,7 @@
     </div>
   </div>
 </div>
+
   
 <!--   Core JS Files   -->
 <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
@@ -255,6 +256,18 @@
 <script src="assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="assets/demo/demo.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#upload').on('show.bs.modal',function(e){
+            var id = $(e.relatedTarget).data('id');
+            var assignID = $(e.relatedTarget).data('assignid');
+
+            $('#formUpl').attr('action','uploadFIle.jsp?id='+id+'&&assignID='+assignID);
+
+        });
+
+    })
+</script>
 </body>
 
 </html>

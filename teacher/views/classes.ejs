@@ -146,3 +146,15 @@
 
     })
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#postAnnouncement').on('show.bs.modal',function(e){
+            var classID = $(e.relatedTarget).data('classid');
+
+            $('button[name=classID]').val(classID);
+
+        });
+
+    })
+</script>
