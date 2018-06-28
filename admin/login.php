@@ -12,32 +12,37 @@ $idnumber = $_POST['idnumber'];
 $password = $_POST['password'];
 
 
-
-$sql = "SELECT userID,firstname,type FROM users WHERE idnumber = ? AND password = ?";
+$sql = "SELECT userID,firstname,type,status FROM users WHERE idnumber = ? AND password = ?";
 $st = $conn->prepare($sql);
-$st->bind_param('is',$idnumber,$password);
+$st->bind_param('is', $idnumber, $password);
 $st->execute();
 $res = $st->get_result();
 $r = $res->fetch_row();
-if($res->num_rows > 0){
+if ($res->num_rows > 0) {
 
-    $_SESSION['userID'] = $r[0];
-    $_SESSION['username'] = $r[1];
-    $_SESSION['type'] = $r[2];
-    if($r[2] == "admin"){
-        header('Location:index.php');
-    }elseif ($r[2] == "Teacher"){
-        $m="Awan pay TEACHER!";
-        echo "
+    if ($r[3] == "active") {
+
+
+        $_SESSION['userID'] = $r[0];
+        $_SESSION['username'] = $r[1];
+        $_SESSION['type'] = $r[2];
+        if ($r[2] == "admin") {
+            header('Location:index.php');
+        } elseif ($r[2] == "Teacher") {
+            header('Location: //localhost:3000/index/' . $r[3]);
+        } elseif ($r[2] == "Student") {
+            header('Location: //localhost:8080/student/classes.jsp?ayd=' . $r[0]);
+        }else {
+            $m = "Who are you!";
+            echo "
             <script type = 'text/javascript'>
                 alert('$m');
                 window.location.replace('../index.php');
             </script>
          ";
-    }elseif ($r[2] == "Student"){
-        header('Location: //localhost:8080/student/classes.jsp?ayd=' . $r[0]);
+        }
     }else{
-        $m="Who are you!";
+        $m = "Account not activated,Contact administrator!";
         echo "
             <script type = 'text/javascript'>
                 alert('$m');
@@ -45,8 +50,8 @@ if($res->num_rows > 0){
             </script>
          ";
     }
-}else{
-    $m="Wrong Credentials!";
+} else {
+    $m = "Wrong Credentials!";
     echo "
             <script type = 'text/javascript'>
                 alert('$m');
