@@ -110,21 +110,27 @@
                                         <th>Class Code</th>
                                         <th>Subject</th>
                                         <th>Instructor</th>
+                                        <th>Prelim Grade</th>
+                                        <th>Midterm Grade</th>
+                                        <th>Final Grade</th>
                                         </thead>
                                         <tbody>
                                             <%
                                                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tekweb","root","");
                                                 Statement st = con.createStatement();
                                                 Integer id =(Integer) session.getAttribute("ayd");
-                                                ResultSet rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE studentclasses.studentID = '" + id + "' AND studentclasses.status = 'registered'");
+                                                ResultSet rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID JOIN users ON classes.userID = users.userID JOIN grades ON studentclasses.classID = grades.classID WHERE studentclasses.studentID = '" + id + "' AND studentclasses.status = 'registered'");
                                                 if(!rs.next()){
-                                                    out.print("Error");
+                                                    out.print("No Classes Yet");
                                                 }else{
                                                     rs.beforeFirst();
                                                     while(rs.next()){
                                                         out.println("<tr><td>" + rs.getString("classCode"));
                                                         out.println("</td><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
+                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + "/" + rs.getString("Preliminary") + ">" + rs.getString("Preliminary") + "</a>");
+                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + rs.getString("Midterms") + ">" + rs.getString("Midterms") + "</a>");
+                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + rs.getString("Finals") + ">" + rs.getString("Finals") + "</a>");
                                                         out.println("</td></tr>");
                                                         
                                                     }
