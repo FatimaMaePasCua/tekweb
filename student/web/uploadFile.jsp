@@ -90,11 +90,12 @@
                         "root", "");
                 
 
-                String sql = "INSERT INTO submissions(assignID,studentID) VALUES(?,?)";
+                String sql = "INSERT INTO submissions(assignID,studentID,filename) VALUES(?,?,?)";
                 PreparedStatement ps = null;
                 ps = con.prepareStatement(sql);
                 ps.setInt(1, Integer.parseInt(assignID));
                 ps.setInt(2, Integer.parseInt(classID));
+                ps.setString(3, fileName);
                 ps.executeUpdate();
 
                      

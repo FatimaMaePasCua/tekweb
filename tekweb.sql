@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 28, 2018 at 08:29 AM
--- Server version: 5.7.21
--- PHP Version: 5.6.35
+-- Generation Time: Jun 28, 2018 at 10:13 AM
+-- Server version: 5.7.19
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -151,14 +151,6 @@ CREATE TABLE IF NOT EXISTS `studentclasses` (
   PRIMARY KEY (`regstdID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `studentclasses`
---
-
-INSERT INTO `studentclasses` (`regstdID`, `classID`, `status`, `studentID`, `timestamp`) VALUES
-(1, 1, '', 8, '2018-06-28 05:00:55'),
-(2, 1, 'registered', 9, '2018-06-28 06:04:58');
-
 -- --------------------------------------------------------
 
 --
@@ -171,8 +163,9 @@ CREATE TABLE IF NOT EXISTS `submissions` (
   `assignID` int(11) NOT NULL,
   `studentID` int(11) NOT NULL,
   `dateSubmitted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `filename` varchar(100) NOT NULL,
   PRIMARY KEY (`subID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -200,9 +193,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`userID`, `firstname`, `lastname`, `idnumber`, `password`, `type`, `course`, `year`, `status`, `department`) VALUES
-(1, 'admin', 'admin', 1, 'admin', 'admin', '', 0, '', NULL),
-(8, 'teacher', 'teacher', 123, 'teacher', 'Teacher', NULL, NULL, '', NULL),
-(9, 'student', 'student', 2, 'student', 'Student', NULL, NULL, 'pending', NULL);
+(1, 'admin', 'admin', 1, 'admin', 'admin', '', 0, 'active', NULL),
+(8, 'teacher', 'teacher', 123, 'teacher', 'Teacher', NULL, NULL, 'active', NULL),
+(9, 'student', 'student', 2, 'student', 'Student', NULL, NULL, 'active', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

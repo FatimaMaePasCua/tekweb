@@ -51,7 +51,6 @@ if($_SESSION['type'] != 'admin' ){
         <div class="logo">
             <a  class="simple-text logo-normal text-center">
                 <?php
-                    session_start();
                     echo strtoupper($_SESSION['username']);
                 ?>
             </a>
