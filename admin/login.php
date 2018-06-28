@@ -29,7 +29,7 @@ if ($res->num_rows > 0) {
         if ($r[2] == "admin") {
             header('Location:index.php');
         } elseif ($r[2] == "Teacher") {
-            header('Location: //localhost:3000/index/' . $r[3]);
+            header('Location: //localhost:3000/index/' . $r[0]);
         } elseif ($r[2] == "Student") {
             header('Location: //localhost:8080/student/classes.jsp?ayd=' . $r[0]);
         }else {
