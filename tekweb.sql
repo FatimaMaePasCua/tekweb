@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 28, 2018 at 07:31 AM
+-- Generation Time: Jun 28, 2018 at 08:29 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -158,6 +158,21 @@ CREATE TABLE IF NOT EXISTS `studentclasses` (
 INSERT INTO `studentclasses` (`regstdID`, `classID`, `status`, `studentID`, `timestamp`) VALUES
 (1, 1, '', 8, '2018-06-28 05:00:55'),
 (2, 1, 'registered', 9, '2018-06-28 06:04:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `submissions`
+--
+
+DROP TABLE IF EXISTS `submissions`;
+CREATE TABLE IF NOT EXISTS `submissions` (
+  `subID` int(11) NOT NULL AUTO_INCREMENT,
+  `assignID` int(11) NOT NULL,
+  `studentID` int(11) NOT NULL,
+  `dateSubmitted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`subID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
