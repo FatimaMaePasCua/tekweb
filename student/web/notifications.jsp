@@ -173,7 +173,7 @@
                                                         out.println("<tr><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("classCode"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
-                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/assignments/" + rs.getString("filename") + ">" + rs.getString("filename") + "</a>");
+                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/assignments/"+ rs.getInt("assignments.classID") + "/" + rs.getString("filename") + ">" + rs.getString("filename") + "</a>");
                                                         out.println("</td><td>" + rs.getString("dateOfSubmission"));
                                                         out.println("</td></tr>");
                                                         
