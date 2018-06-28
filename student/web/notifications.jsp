@@ -68,13 +68,13 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="classes.jsp">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
                         <i class="material-icons">content_paste</i>
                         <p>My Classes</p>
                     </a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item active">
                     <a class="nav-link" href="notifications.jsp">
                         <i class="material-icons">content_paste</i>
                         <p>Notifications</p>
@@ -101,30 +101,32 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-primary">
-                                <h4 class="card-title text-center">My Classes</h4>
+                                <h4 class="card-title text-center">Announcements</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class=" text-primary">
-                                        <th>Class Code</th>
                                         <th>Subject</th>
+                                        <th>Class Code</th>
                                         <th>Instructor</th>
+                                        <th>Announcement</th>
                                         </thead>
                                         <tbody>
                                             <%
                                                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tekweb","root","");
                                                 Statement st = con.createStatement();
                                                 Integer id =(Integer) session.getAttribute("ayd");
-                                                ResultSet rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE studentclasses.studentID = '" + id + "' AND studentclasses.status = 'registered'");
+                                                ResultSet rs = st.executeQuery("SELECT * FROM announcements inner join studentclasses on studentclasses.classID = announcements.classID JOIN classes on announcements.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE studentclasses.studentID ='" + id + "' AND dateOfValidity <= date(now())");
                                                 if(!rs.next()){
-                                                    out.print("Error");
+                                                    out.print("No Announcements");
                                                 }else{
                                                     rs.beforeFirst();
                                                     while(rs.next()){
-                                                        out.println("<tr><td>" + rs.getString("classCode"));
-                                                        out.println("</td><td>" + rs.getString("subject"));
+                                                        out.println("<tr><td>" + rs.getString("subject"));
+                                                        out.println("</td><td>" + rs.getString("classCode"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
+                                                        out.println("</td><td>" + rs.getString("announcement"));
                                                         out.println("</td></tr>");
                                                         
                                                     }
@@ -135,8 +137,54 @@
                                         </tbody>
                                     </table>
                                     <hr>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    Add Subject</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                                            
+                                            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title text-center">Assignments</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                        <th>Subject</th>
+                                        <th>Class Code</th>
+                                        <th>Instructor</th>
+                                        <th>Assignment</th>
+                                        <th>Deadline</th>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                
+                                                rs = st.executeQuery("SELECT * FROM assignments inner join studentclasses on studentclasses.classID = assignments.classID JOIN classes on assignments.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE studentclasses.studentID ='" + id +"' AND dateOfSubmission <= date(now())");
+                                                if(!rs.next()){
+                                                    out.print("No Announcements");
+                                                }else{
+                                                    rs.beforeFirst();
+                                                    while(rs.next()){
+                                                        out.println("<tr><td>" + rs.getString("subject"));
+                                                        out.println("</td><td>" + rs.getString("classCode"));
+                                                        out.println("</td><td>" + rs.getString("firstname"));
+                                                        out.println("</td><td>" + "<a href=http://localhost/tekweb/teacher/uploads/assignments/" + rs.getString("filename") + ">" + rs.getString("filename") + "</a>");
+                                                        out.println("</td><td>" + rs.getString("dateOfSubmission"));
+                                                        out.println("</td></tr>");
+                                                        
+                                                    }
+                                                }
+                                            %>
+                                       
+                                        
+                                        </tbody>
+                                    </table>
+                                    <hr>
                                 </div>
                             </div>
                         </div>
