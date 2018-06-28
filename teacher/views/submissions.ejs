@@ -25,7 +25,8 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                         <div class="panel-heading">
-                                <button data-toggle="modal" class="btn btn-success" data-target="#assignments">Download All</button>
+                      <!--           <button id="downloadAllButton" 
+                                    class="btn btn-success" >Download All</button> -->
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -45,7 +46,7 @@
                                             <td><%=c.idnumber%></td>
                                             <td><%=c.firstname%> <%=c.lastname%></a></td>
                                             <td><%=moment(c.dateSubmitted).format("MMM DD YYYY, dddd")%></td>
-                                            <td><a href="/submissions/<%=c.classID%>/<%=c.assignID%>/<%=c.flnm%>" download>Download File</a></td>
+                                            <td><a class="download_file" href="/submissions/<%=c.classID%>/<%=c.assignID%>/<%=c.flnm%>" download>Download File</a></td>
 
                                         </tr>
                                         <% })}else{%>
@@ -91,3 +92,13 @@
     </div>
     <!-- CONTENT-WRAPPER SECTION END-->
 <%include partials/footer.ejs%>
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+        $('#downloadAllButton').click(function() {
+            $('a.download_file').trigger( "click" ); 
+            return false;
+        });
+    })
+</script>

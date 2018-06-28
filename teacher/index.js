@@ -101,7 +101,22 @@ app.get('/students/:classID',function(req, res){
 		if (err) throw err;
 		pending = result;
   		
-		res.render('students',{pending: pending, registered: registered});
+		res.render('students',{pending: pending, registered: registered,classID: classID});
+
+	});
+	});
+	app.get('/inviteStudents/:classID',function(req, res){
+	var classID = req.params.classID;
+	var userID = 8;
+
+	var sql = `Select * from users 
+left join studentclasses on studentID = users.userID
+left join invitations on invitations.studentID = users.userID
+where type='Student' and ((regstdID is null)  AND (invtnID is null) OR (studentclasses.classID != ?))`;
+
+  	connection.query(sql,[classID], function (err, result) {
+		if (err) throw err;
+		res.render('invitation',{students: result,classID: classID});
 
 	});
 	});
@@ -121,7 +136,17 @@ app.get('/accept/:classID/:studentID',function(req, res){
 		});
 	});
 });
+app.get('/inviteSt/:studentID/:classID',function(req, res){
+	var classID = req.params.classID;
+	var studentID = req.params.studentID;
 
+	var sql = "Insert into invitations (studentID,classID) values(?,?)";
+
+  	connection.query(sql,[studentID,classID], function (err, result) {
+		if (err) throw err;
+			res.redirect('/inviteStudents/'+classID);
+	});
+});
 app.get('/reject/:classID/:studentID',function(req, res){
 	var classID = req.params.classID;
 	var studentID = req.params.studentID;
