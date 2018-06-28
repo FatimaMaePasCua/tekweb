@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 28, 2018 at 11:45 AM
--- Server version: 5.7.21
--- PHP Version: 5.6.35
+-- Generation Time: Jun 28, 2018 at 12:32 PM
+-- Server version: 5.7.19
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `invitations` (
 --
 
 INSERT INTO `invitations` (`invtnID`, `studentID`, `classID`, `status`) VALUES
-(2, 9, 1, 'pending');
+(2, 9, 1, 'accepted');
 
 -- --------------------------------------------------------
 
@@ -171,7 +171,14 @@ CREATE TABLE IF NOT EXISTS `studentclasses` (
   `studentID` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`regstdID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `studentclasses`
+--
+
+INSERT INTO `studentclasses` (`regstdID`, `classID`, `status`, `studentID`, `timestamp`) VALUES
+(4, 1, 'registered', 9, '2018-06-28 12:10:28');
 
 -- --------------------------------------------------------
 
@@ -208,6 +215,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `transID` int(11) NOT NULL AUTO_INCREMENT,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `action` varchar(250) NOT NULL,
+  `userID` int(11) NOT NULL,
   PRIMARY KEY (`transID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
