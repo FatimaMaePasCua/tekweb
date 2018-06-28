@@ -8,6 +8,7 @@
 
 require 'db.php';
 session_start();
+
 $idnumber = $_POST['idnumber'];
 $password = $_POST['password'];
 

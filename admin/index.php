@@ -1,3 +1,24 @@
+<?php
+session_start();
+if(!isset($_SESSION['username'])){
+    $m = "Please Login first!";
+    echo "
+            <script type = 'text/javascript'>
+                alert('$m');
+                window.location.replace('../index.php');
+            </script>
+         ";
+}
+if($_SESSION['type'] != 'admin' ){
+    $m = "Unauthorize Success!";
+    echo "
+                <script type = 'text/javascript'>
+                    alert('$m');
+                    window.location.replace('../index.php');
+                </script>
+             ";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,3 +1,23 @@
+<?php
+session_start();
+if(isset($_SESSION['username'])){
+    if ($_SESSION['type'] == "admin") {
+        header('Location:admin/index.php');
+    } elseif ($_SESSION['type'] == "Teacher") {
+        header('Location: //localhost:3000/index/' . $r[0]);
+    } elseif ($_SESSION['type'] == "Student") {
+        header('Location: //localhost:8080/student/classes.jsp?ayd=' . $r[0]);
+    }else {
+        $m = "Who are you!";
+        echo "
+            <script type = 'text/javascript'>
+                alert('$m');
+                window.location.replace('../index.php');
+            </script>
+         ";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
