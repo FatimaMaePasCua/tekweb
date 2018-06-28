@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 28, 2018 at 10:13 AM
--- Server version: 5.7.19
--- PHP Version: 5.6.31
+-- Generation Time: Jun 28, 2018 at 11:45 AM
+-- Server version: 5.7.21
+-- PHP Version: 5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -138,6 +138,28 @@ INSERT INTO `grades` (`gradesID`, `Preliminary`, `Midterms`, `Finals`, `classID`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `invitations`
+--
+
+DROP TABLE IF EXISTS `invitations`;
+CREATE TABLE IF NOT EXISTS `invitations` (
+  `invtnID` int(11) NOT NULL AUTO_INCREMENT,
+  `studentID` int(11) NOT NULL,
+  `classID` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL DEFAULT 'pending',
+  PRIMARY KEY (`invtnID`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invitations`
+--
+
+INSERT INTO `invitations` (`invtnID`, `studentID`, `classID`, `status`) VALUES
+(2, 9, 1, 'pending');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `studentclasses`
 --
 
@@ -165,7 +187,29 @@ CREATE TABLE IF NOT EXISTS `submissions` (
   `dateSubmitted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `filename` varchar(100) NOT NULL,
   PRIMARY KEY (`subID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `submissions`
+--
+
+INSERT INTO `submissions` (`subID`, `assignID`, `studentID`, `dateSubmitted`, `filename`) VALUES
+(3, 1, 9, '2018-06-28 10:16:26', '9.php'),
+(4, 1, 8, '2018-06-28 10:33:17', '9.php');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transactions`
+--
+
+DROP TABLE IF EXISTS `transactions`;
+CREATE TABLE IF NOT EXISTS `transactions` (
+  `transID` int(11) NOT NULL AUTO_INCREMENT,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `action` varchar(250) NOT NULL,
+  PRIMARY KEY (`transID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
