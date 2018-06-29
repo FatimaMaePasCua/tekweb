@@ -65,9 +65,9 @@ app.get('/classes',function(req, res){
 });
 app.get('/unauthorizedAccess',function(req,res){
 	if(!req.session.userID){
-		res.render('unauthorizedAccess');
+		res.redirect('http://localhost/tekweb/logout.php');
 	}else{
-		redirect('/classes');
+		res.redirect('/classes');
 	}
 })
 
@@ -77,7 +77,7 @@ app.post('/createClass',function(req, res){
 	var classCode = req.body.classCode;
 	var subject = req.body.subject;
 	var genCode = req.body.genCode;
-	var userID = 8;
+	var userID = req.session.userID;
 	var sql = "INSERT INTO classes (classCode, subject, genCode, userID) VALUES (?,?,?,?)";
 
   	connection.query(sql,[classCode,subject,genCode,userID], function (err, result) {

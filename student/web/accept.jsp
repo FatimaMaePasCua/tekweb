@@ -17,6 +17,18 @@
      ps = con.prepareStatement(queryString);
      ps.executeUpdate();
      
+     String qu = "SELECT * FROM classes WHERE classID = '" + vid +"'";
+     Statement st = con.createStatement();
+     ResultSet rs = st.executeQuery(qu);
+     
+     rs.first();
+     int count = rs.getInt("studentCount") + 1;
+     
+     String que = "UPDATE classes SET studentCount = '" + count +"' WHERE classID = '" + vid + "'";
+    
+     ps = con.prepareStatement(que);
+     ps.executeUpdate();
+     
      
      
      String sql = "INSERT INTO studentclasses(classID,status,studentID) VALUES(?,?,?)";

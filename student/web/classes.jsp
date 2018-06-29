@@ -177,7 +177,7 @@
                                                         out.println("<tr><td>" + rs.getString("classCode"));
                                                         out.println("</td><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
-                                                        out.println("</td><td>" + "<a href='accept.jsp?rid=" + rs.getInt("invtnID") + "&vID=" + rs.getInt("invitations.classID")+    "' class='btn btn-success'><i class='material-icons'>done</i><a href='reject.jsp?rid=" + rs.getInt("invtnID") + "' class='btn btn-success'><i class='material-icons'>close</i>");
+                                                        out.println("</td><td>" + "<a href='accept.jsp?rid=" + rs.getInt("invtnID") + "&vID=" + rs.getInt("invitations.classID")+ "' class='btn btn-success'><i class='material-icons'>done</i><a href='reject.jsp?rid=" + rs.getInt("invtnID") + "' class='btn btn-success'><i class='material-icons'>close</i>");
                                                         out.println("</td></tr>");
                                                         
                                                     }

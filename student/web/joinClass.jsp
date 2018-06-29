@@ -32,6 +32,7 @@
          ps.setInt(3, id);
          ps.executeUpdate();
          
+        
          out.println("<script type=\"text/javascript\">");
          out.println("location='classes.jsp';");
          out.println("</script>");
