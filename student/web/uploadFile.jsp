@@ -97,6 +97,21 @@
                 ps.setInt(2, Integer.parseInt(classID));
                 ps.setString(3, fileName);
                 ps.executeUpdate();
+                
+                String queryString = "SELECT * FROM classes WHERE classID = '" + classID + "'";
+     
+     
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(queryString);
+                rs.first();
+                
+                String tr = "INSERT INTO transactions(action,userID) VALUES(?,?)";
+                ps = null;
+                String act = "Submitted Assignment for class " + rs.getString("subject");
+                ps = con.prepareStatement(tr);
+                ps.setString(1, act);
+                ps.setInt(2, ayd);
+                ps.executeUpdate();
 
                      
                out.println("<script type=\"text/javascript\">");

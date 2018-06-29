@@ -32,6 +32,15 @@
          ps.setInt(3, id);
          ps.executeUpdate();
          
+         
+         String tr = "INSERT INTO transactions(action,userID) VALUES(?,?)";
+         ps = null;
+         String act = "Joined class " + rs.getString("subject");
+         ps = con.prepareStatement(tr);
+         ps.setString(1, act);
+         ps.setInt(2, id);
+         ps.executeUpdate();
+         
         
          out.println("<script type=\"text/javascript\">");
          out.println("location='classes.jsp';");
