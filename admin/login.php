@@ -30,9 +30,9 @@ if ($res->num_rows > 0) {
         if ($r[2] == "admin") {
             header('Location:index.php');
         } elseif ($r[2] == "Teacher") {
-            header('Location: //192.168.43.74:3000/index/' . $r[0]);
+            header('Location: //192.168.22.3:3000/index/' . $r[0]);
         } elseif ($r[2] == "Student") {
-            header('Location: //localhost:8080/student/classes.jsp?ayd=' . $r[0]);
+            header('Location: //192.168.22.3:8080/student/classes.jsp?ayd=' . $r[0]);
         }else {
             $m = "Who are you!";
             echo "

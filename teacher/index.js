@@ -44,10 +44,6 @@ app.get('/index/:uid',function(req, res){
 		res.redirect('/classes');
 	});
 });
-app.get('/logout',function(req,res){
-	req.session.destroy;
-	res.redirect('/unauthorizedAccess');
-})
 
 app.get('/classes',function(req, res){
 	var userID = req.session.userID;
@@ -59,16 +55,19 @@ app.get('/classes',function(req, res){
 			res.render('classes',{classes: result});
 		});
 	}else{
-		res.redirect('/unauthorizedAccess')
+		res.redirect('/logout')
 	}
 	
 });
-app.get('/unauthorizedAccess',function(req,res){
-	if(!req.session.userID){
+app.get('/logout',function(req,res){
+	req.session.destroy;
+	let ip_details = req.socket.address().address.split(':');
+    if(ip_details[3]){
+		res.redirect('http://'+ip_details[3]+'/tekweb/logout.php');
+    }else{
 		res.redirect('http://localhost/tekweb/logout.php');
-	}else{
-		res.redirect('/classes');
-	}
+    }       
+	
 })
 
 
@@ -106,7 +105,7 @@ app.get('/grades',function(req, res){
 			res.render('grades',{classes: result});
 		});
 	}else{
-		res.redirect('/unauthorizedAccess')
+		res.redirect('/logout')
 	}
 });
 
@@ -122,7 +121,7 @@ app.get('/announcements',function(req, res){
 				res.render('announcements',{announcement: result});
 		});
 	}else{
-		res.redirect('/unauthorizedAccess')
+		res.redirect('/logout')
 	}
 });
 
@@ -154,7 +153,7 @@ app.get('/students/:classID',function(req, res){
 			});
 		});
 	}else{
-		res.redirect('/unauthorizedAccess')
+		res.redirect('/logout')
 	}
 
 	});
@@ -173,7 +172,7 @@ app.get('/students/:classID',function(req, res){
 				res.render('invitation',{students: result,classID: classID});
 			});
   		}else{
-			res.redirect('/unauthorizedAccess')
+			res.redirect('/logout')
   		}
 	});
 
@@ -355,7 +354,7 @@ app.get('/assignments/:classID',function(req, res){
 			});
 		});
 	}else{
-		res.redirect('/unauthorizedAccess')
+		res.redirect('/logout')
 	}
 });
 app.get('/submissions/:assignID/:classID',function(req, res){
@@ -381,7 +380,7 @@ app.get('/submissions/:assignID/:classID',function(req, res){
 			});
 		});
 	}else{
-		res.redirect('/unauthorizedAccess')
+		res.redirect('/logout')
 	}
 });
 
