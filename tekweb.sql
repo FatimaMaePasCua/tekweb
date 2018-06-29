@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 28, 2018 at 11:33 PM
+-- Generation Time: Jun 29, 2018 at 04:22 PM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -38,16 +38,7 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   `dateOfValidity` date NOT NULL,
   `classID` int(11) NOT NULL,
   PRIMARY KEY (`annID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `announcements`
---
-
-INSERT INTO `announcements` (`annID`, `subj`, `announcement`, `dateOfValidity`, `classID`) VALUES
-(1, 'Test', 'test', '2018-06-29', 1),
-(2, 'test1', 'test2', '2018-06-29', 2),
-(3, 'Test2', 'test2', '2018-06-29', 3);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -65,17 +56,7 @@ CREATE TABLE IF NOT EXISTS `assignments` (
   `status` varchar(100) NOT NULL DEFAULT 'ongoing',
   `classID` int(11) NOT NULL,
   PRIMARY KEY (`assignID`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `assignments`
---
-
-INSERT INTO `assignments` (`assignID`, `dateUploaded`, `dateOfSubmission`, `filename`, `assignNumber`, `status`, `classID`) VALUES
-(1, '2018-06-29', '2018-06-29', 'assignment1.pdf', 1, 'ongoing', 1),
-(2, '2018-06-29', '2018-06-30', 'assignment2.pdf', 2, 'ongoing', 1),
-(3, '2018-06-29', '2018-06-29', 'assignment1.pdf', 1, 'ongoing', 3),
-(4, '2018-06-29', '2018-06-29', 'assignment2.pdf', 2, 'ongoing', 3);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -93,16 +74,7 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `status` varchar(10) NOT NULL DEFAULT 'active',
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`classID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `classes`
---
-
-INSERT INTO `classes` (`classID`, `classCode`, `subject`, `genCode`, `studentCount`, `status`, `userID`) VALUES
-(1, '9123', 'College Physics', 'abcd1234', 0, 'active', 8),
-(2, '9234', 'Personality Development', 'hfij5432', 0, 'active', 8),
-(3, '9842', 'IT Fundamentals', 'hjeij6142', 1, 'active', 8);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -131,16 +103,7 @@ CREATE TABLE IF NOT EXISTS `grades` (
   `Finals` varchar(100) DEFAULT NULL,
   `classID` int(11) NOT NULL,
   PRIMARY KEY (`gradesID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `grades`
---
-
-INSERT INTO `grades` (`gradesID`, `Preliminary`, `Midterms`, `Finals`, `classID`) VALUES
-(1, 'Preliminary.pdf', 'Midterms.pdf', 'Finals.pdf', 1),
-(2, 'Preliminary.pdf', NULL, NULL, 2),
-(3, NULL, NULL, NULL, 3);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -155,14 +118,7 @@ CREATE TABLE IF NOT EXISTS `invitations` (
   `classID` int(11) NOT NULL,
   `status` varchar(100) NOT NULL DEFAULT 'pending',
   PRIMARY KEY (`invtnID`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `invitations`
---
-
-INSERT INTO `invitations` (`invtnID`, `studentID`, `classID`, `status`) VALUES
-(1, 9, 1, 'accepted');
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -178,16 +134,7 @@ CREATE TABLE IF NOT EXISTS `studentclasses` (
   `studentID` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`regstdID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `studentclasses`
---
-
-INSERT INTO `studentclasses` (`regstdID`, `classID`, `status`, `studentID`, `timestamp`) VALUES
-(1, 1, 'registered', 9, '2018-06-28 22:55:43'),
-(2, 2, 'rejected', 9, '2018-06-28 22:56:35'),
-(3, 3, 'registered', 9, '2018-06-28 22:56:48');
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -218,30 +165,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `action` varchar(250) NOT NULL,
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`transID`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `transactions`
---
-
-INSERT INTO `transactions` (`transID`, `timestamp`, `action`, `userID`) VALUES
-(1, '2018-06-28 22:51:39', 'Class 9123 has been created.', 8),
-(2, '2018-06-28 22:51:46', 'Class 9234 has been created.', 8),
-(3, '2018-06-28 22:51:53', 'Class 9842 has been created.', 8),
-(4, '2018-06-28 22:52:03', 'Teacher 123 invited student 2 in class 9123.', 1),
-(5, '2018-06-28 22:52:35', 'Teacher 123 uploaded an assignment in class 9123.', 1),
-(6, '2018-06-28 22:52:44', 'Teacher 123 uploaded an assignment in class 9123.', 1),
-(7, '2018-06-28 22:52:59', 'Teacher 123 created an announcement.', 1),
-(8, '2018-06-28 22:53:12', 'Teacher 123 created an announcement.', 2),
-(9, '2018-06-28 22:53:24', 'Teacher 123 created an announcement.', 3),
-(10, '2018-06-28 22:53:33', 'Teacher 123 uploaded an assignment in class 9842.', 3),
-(11, '2018-06-28 22:53:42', 'Teacher 123 uploaded an assignment in class 9842.', 3),
-(12, '2018-06-28 22:54:13', 'Teacher 123 uploaded Preliminary grade in class 9123.', 1),
-(13, '2018-06-28 22:54:19', 'Teacher 123 uploaded Midterms grade in class 9123.', 1),
-(14, '2018-06-28 22:54:24', 'Teacher 123 uploaded Finals grade in class 9123.', 1),
-(15, '2018-06-28 22:54:30', 'Teacher 123 uploaded Preliminary grade in class 9234.', 2),
-(16, '2018-06-28 22:57:00', 'Student 2 has been accepted in class 9842.', 3),
-(17, '2018-06-28 22:57:05', 'Student 2 has been rejected in class 9234.', 2);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -262,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status` varchar(50) NOT NULL,
   `department` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -271,7 +195,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`userID`, `firstname`, `lastname`, `idnumber`, `password`, `type`, `course`, `year`, `status`, `department`) VALUES
 (1, 'admin', 'admin', 1, 'admin', 'admin', '', 0, 'active', NULL),
 (8, 'teacher', 'teacher', 123, 'teacher', 'Teacher', NULL, NULL, 'active', NULL),
-(9, 'student', 'student', 2, 'student', 'Student', NULL, NULL, 'active', NULL);
+(9, 'student', 'student', 2, 'student', 'Student', NULL, NULL, 'active', NULL),
+(10, 'jean', 'dac', 123, 'je', 'Teacher', NULL, NULL, 'active', NULL),
+(11, 'hen', 'drix', 21111, '123', 'Student', NULL, NULL, 'active', NULL),
+(12, 'dac', 'yas', 12345, '123', 'Student', NULL, NULL, 'active', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

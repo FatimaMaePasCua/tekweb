@@ -4,9 +4,10 @@ if(isset($_SESSION['username'])){
     if ($_SESSION['type'] == "admin") {
         header('Location:admin/index.php');
     } elseif ($_SESSION['type'] == "Teacher") {
-        header('Location: //localhost:3000/index/' . $r[0]);
+        echo $_SESSION['userID'];
+        header('Location: //192.168.22.3:3000/classes');
     } elseif ($_SESSION['type'] == "Student") {
-        header('Location: //localhost:8080/student/classes.jsp?ayd=' . $r[0]);
+        header('Location: //localhost:8080/student/classes.jsp?ayd=' . $_SESSION['userID']);
     }else {
         $m = "Who are you!";
         echo "
@@ -16,7 +17,7 @@ if(isset($_SESSION['username'])){
             </script>
          ";
     }
-}
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

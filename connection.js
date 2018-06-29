@@ -1,11 +1,11 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-    host: '127.0.0.1',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'tekweb'
-});
+    	host: '127.0.0.1',
+    	port: 3306,
+    	user: 'root',
+   		password: '',
+    	database: 'tekweb'
+	});
 
 module.exports = connection;

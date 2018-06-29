@@ -47,6 +47,7 @@ app.get('/index/:uid',function(req, res){
 
 app.get('/classes',function(req, res){
 	var userID = req.session.userID;
+
 	if(userID){
 		var sql = "Select * from classes where userID = ? AND status = 'active'";
 
@@ -60,13 +61,21 @@ app.get('/classes',function(req, res){
 	
 });
 app.get('/logout',function(req,res){
-	req.session.destroy;
-	let ip_details = req.socket.address().address.split(':');
-    if(ip_details[3]){
-		res.redirect('http://'+ip_details[3]+'/tekweb/logout.php');
-    }else{
-		res.redirect('http://localhost/tekweb/logout.php');
-    }       
+	req.session.destroy(function(err){  
+        if(err){  
+            console.log(err);  
+        }  
+        else  
+        {
+        	req.session = null;
+         	let ip_details = req.socket.address().address.split(':');
+    		if(ip_details[3]){
+				res.redirect('http://'+ip_details[3]+'/tekweb/logout.php');
+    		}else{
+				res.redirect('http://localhost/tekweb/logout.php');
+    		}         
+        }  
+    });  
 	
 })
 

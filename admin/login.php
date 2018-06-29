@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yanzk
- * Date: 24/06/2018
- * Time: 7:55 PM
- */
-
 require 'db.php';
 session_start();
 
@@ -27,12 +20,14 @@ if ($res->num_rows > 0) {
         $_SESSION['userID'] = $r[0];
         $_SESSION['username'] = $r[1];
         $_SESSION['type'] = $r[2];
+
+
         if ($r[2] == "admin") {
             header('Location:index.php');
         } elseif ($r[2] == "Teacher") {
-            header('Location: //192.168.22.3:3000/index/' . $r[0]);
+            header('Location: //192.168.22.3:3000/index/' . $_SESSION['userID']);
         } elseif ($r[2] == "Student") {
-            header('Location: //192.168.22.3:8080/student/classes.jsp?ayd=' . $r[0]);
+            header('Location: //192.168.22.3:8080/student/classes.jsp?ayd=' . $_SESSION['userID']);
         }else {
             $m = "Who are you!";
             echo "
