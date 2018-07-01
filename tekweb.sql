@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 01, 2018 at 10:41 AM
+-- Generation Time: Jul 01, 2018 at 11:38 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `grades` (
 --
 
 INSERT INTO `grades` (`gradesID`, `Preliminary`, `Midterms`, `Finals`, `classID`, `studentID`) VALUES
-(1, NULL, NULL, NULL, 1, 9);
+(1, 80, 90, 85, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -133,7 +133,15 @@ CREATE TABLE IF NOT EXISTS `invitations` (
   `classID` int(11) NOT NULL,
   `status` varchar(100) NOT NULL DEFAULT 'pending',
   PRIMARY KEY (`invtnID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invitations`
+--
+
+INSERT INTO `invitations` (`invtnID`, `studentID`, `classID`, `status`) VALUES
+(1, 11, 1, 'pending'),
+(2, 12, 1, 'pending');
 
 -- --------------------------------------------------------
 
@@ -187,16 +195,9 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `action` varchar(250) NOT NULL,
   `userID` int(11) NOT NULL,
+  `classID` int(11) NOT NULL,
   PRIMARY KEY (`transID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `transactions`
---
-
-INSERT INTO `transactions` (`transID`, `timestamp`, `action`, `userID`) VALUES
-(1, '2018-07-01 04:06:52', 'Class 9425 has been created.', 8),
-(2, '2018-07-01 04:56:21', 'Joined class Physics', 9);
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
