@@ -258,7 +258,10 @@ app.get('/reject/:classID/:studentID',function(req, res){
 app.post('/upload', function(req, res) {
 	var number;
 	var dateOfSubmission = req.body.date;
+	var instructions = req.body.instructions;
 	var classID = req.body.classID;
+	var userID = req.session.userID;
+	if(userID){
 	var dir = __dirname+'/uploads/assignments/'+classID+'/';
 
 	var sql = `SELECT count(assignID) as number FROM assignments WHERE classID = ?`;
@@ -274,9 +277,8 @@ app.post('/upload', function(req, res) {
 			number = result[0].number+1;
 		var filename = 'assignment'+number+extension;
 
-	
-	var sql = `Insert INTO assignments (dateUploaded,dateOfSubmission,filename,assignNumber,classID)
-	VALUES(Date(NOW()),?,?,?,?)`;
+	var sql = `Insert INTO assignments (dateUploaded,instructions,dateOfSubmission,filename,assignNumber,classID)
+	VALUES(Date(NOW()),?,?,?,?,?)`;
 
 	if (!fs.existsSync(dir)){
     	fs.mkdirSync(dir);
@@ -287,14 +289,14 @@ app.post('/upload', function(req, res) {
 			if (err)
     	  		return res.status(500).send(err);
 	});
-  	connection.query(sql,[dateOfSubmission,filename,(number),classID], function (err, result) {
+  	connection.query(sql,[instructions,dateOfSubmission,filename,(number),classID], function (err, result) {
 		if (err) throw err;
 				var sql2 = "Select * from assignments INNER JOIN classes on classes.classID = assignments.classID inner join users on users.userID = classes.userID  where assignments.classID =?";
 		connection.query(sql2,[classID], function (err, result) {
 			if (err) throw err;
 			var classes = result[0];
-		var sql2 = "Insert into transactions (action,userID) values('Teacher "+classes.idnumber+" uploaded an assignment in class "+classes.classCode+".',?)";
-		connection.query(sql2,[classID], function (err, result) {
+		var sql2 = "Insert into transactions (action,userID,classID) values('Teacher "+classes.idnumber+" uploaded an assignment in class "+classes.classCode+".',?,?)";
+		connection.query(sql2,[userID,classID], function (err, result) {
 			if (err) throw err;
 
 			res.redirect('/assignments/'+classID);
@@ -302,6 +304,9 @@ app.post('/upload', function(req, res) {
 		});
 		});
 	});
+	}else{
+		res.redirect('/logout');
+	}
 });
 
 app.post('/uploadGrade/:classID/:studentID', function(req, res) {
