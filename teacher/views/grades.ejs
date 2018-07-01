@@ -18,7 +18,7 @@
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Grades </h1>
+                        <h1 class="page-head-line"><%=grades[0].classCode%> <%=grades[0].subject%>  </h1>
                     </div>
                 </div>
                 <div class="row">
@@ -37,26 +37,46 @@
                                             <th>Preliminary</th>
                                             <th>Midterms </th>
                                             <th>Tentative Final</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                             		<% if(grades.length !== 0){ grades.forEach(function(c){%>
                                         <tr>
+                                            <form method="POST" action="/uploadGrade/<%=c.classID%>/<%=c.studentID%>">
                                             <td><%=c.idnumber%> <%=c.firstname%> <%=c.lastname%></
                                            </td>
                                            
-                                            <% if(c.Preliminary = null){%>
-
+                                            <% if(!c.Preliminary){%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" name="prelims">
+                                            </td>
                                             <%} else{%>
-                                              <td>
-                                                <input class="form-control" type="" name="">
+                                            <td width="10%">
+                                                <input class="form-control" type="number" value="<%=c.Preliminary%>" name="prelims">
                                             </td>
                                             <%}%>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <% if(!c.Midterms){%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" name="midterms">
+                                            </td>
+                                            <%} else{%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" value="<%=c.Midterms%>" name="midterms">
+                                            </td>
+                                            <%}%>
+                                            <% if(!c.Finals){%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" name="finals">
+                                            </td>
+                                            <%} else{%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" value="<%=c.Finals%>" name="finals">
+                                            </td>
+                                            <%}%>
+                                            <td width="20%"><button name="classID" class="btn btn-sm btn-success">Save</button></td>
                                         <%})%>
-
+                                        </form>
                                         </tr>
 							        	<% }else{%>
 							        	<tr>

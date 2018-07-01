@@ -110,14 +110,13 @@ app.get('/grades/:classID',function(req, res){
 	var userID = req.session.userID;
 	var classID = req.params.classID;
 	if(userID){
-		var sql = `SELECT grades.*,classCode,firstname,lastname,idnumber FROM grades 
+		var sql = `SELECT grades.*,classCode,firstname,lastname,idnumber,subject FROM grades 
 					inner join users on users.userID = studentID
 					inner join classes on classes.classID = grades.classID
 					where classes.classID = ?`;
 
   		connection.query(sql,[classID], function (err, result) {
 		if (err) throw err;
-		console.log(result);
 			res.render('grades',{grades: result});
 		});
 	}else{
@@ -305,45 +304,26 @@ app.post('/upload', function(req, res) {
 	});
 });
 
-app.post('/uploadGrade', function(req, res) {
-	var classID = req.body.classID;
-	var term = req.body.term;
-	var dir = __dirname+'/uploads/grades/'+classID+'/';
-
-
- 	if (!req.files)
-   		return res.status(400).send('No files were uploaded.');
-
-  		let grades = req.files.grade;
-		var extension = path.extname(grades.name);
-		var filename = term+extension;
-
-	
-
-	if (!fs.existsSync(dir)){
-    	fs.mkdirSync(dir);
+app.post('/uploadGrade/:classID/:studentID', function(req, res) {
+	var classID = req.params.classID;
+	var studentID = req.params.studentID;
+	if(req.body.prelims){
+		var prelims = req.body.prelims;
 	}
-   
+	if(req.body.midterms){
+		var midterms = req.body.midterms;
+	}
+	if(req.body.finals){
+		var finals = req.body.finals;
+	}
+	var sql = "Update grades set Preliminary = ?, Midterms = ?, Finals = ? where classID =? AND studentID =?";
 
-  	grades.mv(dir+filename, function(err) {
-			if (err)
-    	  		return res.status(500).send(err);
-	});
-	var sql = `Update grades set `+term+`= ? where classID = ?`;
-		connection.query(sql,[filename,classID], function (err, result) {
+
+  	connection.query(sql,[prelims,midterms,finals,classID,studentID], function (err, result) {		
 		if (err) throw err;
-		var sql2 = "Select * from grades INNER JOIN classes on classes.classID = grades.classID inner join users on users.userID = classes.userID  where classes.classID =?";
-		connection.query(sql2,[classID], function (err, result) {
-			if (err) throw err;
-			var classes = result[0];
-		var sql2 = "Insert into transactions (action,userID) values('Teacher "+classes.idnumber+" uploaded "+term+" grade in class "+classes.classCode+".',?)";
-		connection.query(sql2,[classID], function (err, result) {
-			if (err) throw err;
-			res.redirect('/grades');
-		});
-		});
-		});
-	});
+		res.redirect('/grades/'+classID);
+	});	
+});	
 
 
 app.get('/assignments/:classID',function(req, res){
