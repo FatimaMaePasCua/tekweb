@@ -178,7 +178,7 @@ app.get('/students/:classID',function(req, res){
 			var sql = `Select * from users 
 			left join studentclasses on studentID = users.userID
 			left join invitations on invitations.studentID = users.userID
-			where type='Student' and ((regstdID is null)  
+			where users.type='Student' and ((regstdID is null)  
 			AND (invtnID is null) OR (studentclasses.classID != ?)) group by users.userID`;
 
   			connection.query(sql,[classID], function (err, result) {
