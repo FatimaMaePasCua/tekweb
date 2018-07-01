@@ -88,13 +88,14 @@
                Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tekweb",
                         "root", "");
-                
+                 session = request.getSession();
+                Integer id =(Integer) session.getAttribute("ayd");
 
                 String sql = "INSERT INTO submissions(assignID,studentID,filename) VALUES(?,?,?)";
                 PreparedStatement ps = null;
                 ps = con.prepareStatement(sql);
                 ps.setInt(1, Integer.parseInt(assignID));
-                ps.setInt(2, Integer.parseInt(classID));
+                ps.setInt(2, id);
                 ps.setString(3, fileName);
                 ps.executeUpdate();
                 

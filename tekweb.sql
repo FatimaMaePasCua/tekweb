@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 29, 2018 at 04:22 PM
--- Server version: 5.7.21
--- PHP Version: 5.6.35
+-- Generation Time: Jun 30, 2018 at 03:56 AM
+-- Server version: 5.7.19
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -193,12 +193,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`userID`, `firstname`, `lastname`, `idnumber`, `password`, `type`, `course`, `year`, `status`, `department`) VALUES
-(1, 'admin', 'admin', 1, 'admin', 'admin', '', 0, 'active', NULL),
-(8, 'teacher', 'teacher', 123, 'teacher', 'Teacher', NULL, NULL, 'active', NULL),
-(9, 'student', 'student', 2, 'student', 'Student', NULL, NULL, 'active', NULL),
-(10, 'jean', 'dac', 123, 'je', 'Teacher', NULL, NULL, 'active', NULL),
-(11, 'hen', 'drix', 21111, '123', 'Student', NULL, NULL, 'active', NULL),
-(12, 'dac', 'yas', 12345, '123', 'Student', NULL, NULL, 'active', NULL);
+(1, 'admin', 'admin', 1, 'admin', 'admin', '', 0, 'active', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

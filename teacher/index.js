@@ -1,12 +1,21 @@
 const express = require('express');
 const app = express();
-const connection = require('../connection');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const moment = require('moment');
 const session = require('express-session')
 const fs = require('fs');
 const path = require('path');
+
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  host     : '127.0.0.1',
+  user     : 'root',
+  password : '',
+  database: 'tekweb'
+});
+ 
 
 app.use(fileUpload());
 
@@ -29,7 +38,6 @@ app.use(express.static('uploads'));
 connection.connect(function(err) {
   		if (err) throw err;
   		console.log("Connected!");
- 		
 });
 
 app.get('/', (req, res) => res.redirect('/classes'));

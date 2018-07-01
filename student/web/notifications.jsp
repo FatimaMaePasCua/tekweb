@@ -165,7 +165,7 @@
                                         <tbody>
                                             <%
                                                 
-                                                rs = st.executeQuery("SELECT * FROM assignments inner join studentclasses on studentclasses.classID = assignments.classID JOIN classes on assignments.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE studentclasses.studentID ='" + id +"' AND dateOfSubmission <= date(now())");
+                                                rs = st.executeQuery("SELECT * FROM assignments inner join classes on classes.classID = assignments.classID inner join studentclasses on studentclasses.classID = assignments.classID inner join users ON users.userID = studentclasses.studentID where studentclasses.studentID = '" + id + "'");
                                                 if(!rs.next()){
                                                     out.print("No Assignments");
                                                 }else{
@@ -174,7 +174,7 @@
                                                         out.println("<tr><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("classCode"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
-                                                        out.println("</td><td>" + "<a download href=http://localhost/tekweb/teacher/uploads/assignments/"+ rs.getInt("assignments.classID") + "/" + rs.getString("filename") + ">" + rs.getString("filename") + "</a>");
+                                                        out.println("</td><td>" + "<a download href=http://192.168.7.14/tekweb/teacher/uploads/assignments/"+ rs.getInt("assignments.classID") + "/" + rs.getString("filename") + ">" + rs.getString("filename") + "</a>");
                                                         out.println("</td><td>" + rs.getString("dateOfSubmission"));
                                                         out.println("</td><td>" + "<button data-assignID=" +rs.getInt("assignments.assignID")+" data-id=" +rs.getInt("assignments.classID")+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#upload'>Upload Assignment</button>");
                                                         out.println("</td></tr>");
