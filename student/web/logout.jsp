@@ -4,7 +4,7 @@
 
 
     session.invalidate();
-    response.sendRedirect("http://192.168.7.14/tekweb/logout.php");
+    response.sendRedirect("http://localhost/tekweb/logout.php");
 
 
 

@@ -119,13 +119,13 @@ if($_SESSION['type'] != 'admin' ){
         </div>
         <div class="content">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title text-center"> Activities</h4>
+                            <h4 class="card-title text-center">Teacher Activities</h4>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="">
                                 <table class="table">
                                     <thead class=" text-primary">
                                     <th>Activity</th>
@@ -136,12 +136,43 @@ if($_SESSION['type'] != 'admin' ){
                                     <?php
                                     require "db.php";
 
-                                    $sql = "SELECT * FROM transactions JOIN users ON transactions.userID = users.userID";
+                                    $sql = "SELECT * FROM transactions JOIN users ON transactions.userID = users.userID WHERE type = 'teacher'";
                                     $res = $conn->query($sql);
                                     while($row = $res->fetch_assoc()){
                                         echo "<tr><td>" .$row['action'] . "</td>".
                                                 "<td>" . $row['firstname'] ."</td>".
                                                 "<td>" . $row['timestamp'] ."</td></tr>";
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title text-center">Student Activities</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                    <th>Activity</th>
+                                    <th>User</th>
+                                    <th>Date</th>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    require "db.php";
+
+                                    $sql = "SELECT * FROM transactions JOIN users ON transactions.userID = users.userID WHERE type = 'student'";
+                                    $res = $conn->query($sql);
+                                    while($row = $res->fetch_assoc()){
+                                        echo "<tr><td>" .$row['action'] . "</td>".
+                                            "<td>" . $row['firstname'] ."</td>".
+                                            "<td>" . $row['timestamp'] ."</td></tr>";
                                     }
                                     ?>
                                     </tbody>
