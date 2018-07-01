@@ -226,6 +226,7 @@ app.get('/accept/:classID/:studentID',function(req, res){
 app.get('/inviteSt/:studentID/:classID',function(req, res){
 	var classID = req.params.classID;
 	var studentID = req.params.studentID;
+	var userID = req.session.userID;
 
 	var sql = "Insert into invitations (studentID,classID) values(?,?)";
 
@@ -240,8 +241,8 @@ app.get('/inviteSt/:studentID/:classID',function(req, res){
 		connection.query(sql2,[studentID], function (err, result) {
 			if (err) throw err;
 			var student = result[0];
-		var sql2 = "Insert into transactions (action,userID) values('Teacher "+classes.idnumber+" invited student "+student.idnumber+" in class "+classes.classCode+".',?)";
-		connection.query(sql2,[classID], function (err, result) {
+		var sql2 = "Insert into transactions (action,userID,classID) values('Teacher "+classes.idnumber+" invited student "+student.idnumber+" in class "+classes.classCode+".',?,?)";
+		connection.query(sql2,[userID,classID], function (err, result) {
 			if (err) throw err;
 			res.redirect('/inviteStudents/'+classID);
 		});
@@ -399,6 +400,7 @@ app.post('/createAnnouncement', function(req, res) {
 	var subj = req.body.subj;
 	var announcement = req.body.announcement;
 	var classID = req.body.classID;
+	var userID = req.session.userID;
 	var sql = `Insert into announcements (subj,announcement,dateOfValidity,classID) VALUES(?,?,?,?)`;
 
 	connection.query(sql,[subj,announcement,dateOfValidity,classID], function (err, result) {
@@ -407,8 +409,8 @@ app.post('/createAnnouncement', function(req, res) {
 		connection.query(sql2,[classID], function (err, result) {
 			if (err) throw err;
 			var classes = result[0];
-		var sql2 = "Insert into transactions (action,userID) values('Teacher "+classes.idnumber+" created an announcement.',?)";
-		connection.query(sql2,[classID], function (err, result) {
+		var sql2 = "Insert into transactions (action,userID,classID) values('Teacher "+classes.idnumber+" created an announcement.',?,?)";
+		connection.query(sql2,[userID,classID], function (err, result) {
 			if (err) throw err;
 
 		res.redirect('/classes');
