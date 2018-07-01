@@ -40,7 +40,7 @@ connection.connect(function(err) {
   		console.log("Connected!");
 });
 
-app.get('/', (req, res) => res.redirect('/classes'));
+app.get('/', (req, res) => res.redirect('/home'));
 
 app.get('/index/:uid',function(req, res){
 	var userID = req.params.uid;
@@ -49,10 +49,24 @@ app.get('/index/:uid',function(req, res){
   		if (err) throw err;
   		req.session.userID = result[0].userID;
   		req.session.userData = result[0];
-		res.redirect('/classes');
+		res.redirect('/home');
 	});
 });
+app.get('/home',function(req, res){
+	var userID = req.session.userID;
 
+	if(userID){
+		var sql = "Select * from studentclasses inner join classes on classes.classID = studentclasses.classID inner join users on users.userID = studentclasses.studentID where studentclasses.status = 'pending' AND classes.userID = ?";
+
+  		connection.query(sql,[userID], function (err, result) {	
+			if (err) throw err;
+			res.render('index',{activities: result});
+		});
+	}else{
+		res.redirect('/logout')
+	}
+	
+});
 app.get('/classes',function(req, res){
 	var userID = req.session.userID;
 
@@ -98,8 +112,8 @@ app.post('/createClass',function(req, res){
 
   	connection.query(sql,[classCode,subject,genCode,userID], function (err, result) {
 		if (err) throw err;
-		var sql = "INSERT INTO transactions (action,userID) VALUES ('Class "+classCode+" has been created.',?)";
-  		connection.query(sql,[userID],function (err, result) {
+		var sql = "INSERT INTO transactions (action,userID,classID) VALUES ('Class "+classCode+" has been created.',?,?)";
+  		connection.query(sql,[userID,result.insertId],function (err, result) {
 			if (err) throw err;
 				res.redirect('/classes');
 			});
