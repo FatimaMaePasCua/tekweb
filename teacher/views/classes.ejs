@@ -6,7 +6,6 @@
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
                             <li><a class="menu-top-active"  href="/classes">Classes</a></li>
-                             <li><a href="/grades">Grades</a></li>
                              <li><a href="/announcements">Announcements</a></li>
                              <li><a href="/logout">Logout</a></li>
                         </ul>
@@ -54,6 +53,8 @@
                                             <td width="25%"><a href="/assignments/<%=c.classID%>">Assignments</a>
                                             	<br>
                                             	  <a href="#" data-classID='<%=c.classID%>' data-toggle="modal" data-target="#postAnnouncement">Announcement</a>
+                                                <br>
+                                                  <a href="/grades/<%=c.classID%>">Grades</a>
                                             </td>
                                             <td width="25%">
                                                 <a href="/students/<%=c.classID%>">View Students</a><br>

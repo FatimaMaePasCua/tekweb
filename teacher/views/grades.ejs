@@ -4,12 +4,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
-                        <ul id="menu-top" class="nav navbar-nav navbar-right">
-                                <li><a href="/classes">Classes</a></li>
-                             <li><a class="menu-top-active" href="/grades">Grades</a></li>
-                             <li><a href="/announcements">Announcements</a></li>
-                             <li><a href="/logout">Logout</a></li>
-                             
+                        <ul id="menu-top" class="nav navbar-nav navbar-left">
+                            <li><a href="/classes">Back to Classes</a></li>
                         </ul>
                     </div>
                 </div>
@@ -37,35 +33,28 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Class Code</th>
+                                            <th>Student</th>
                                             <th>Preliminary</th>
                                             <th>Midterms </th>
                                             <th>Tentative Final</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                            		<% if(classes.length !== 0){ classes.forEach(function(c){%>
+                            		<% if(grades.length !== 0){ grades.forEach(function(c){%>
                                         <tr>
-                                            <td><%=c.classCode%></td>
-                                            <% if (c.Preliminary === null) {%>
-                                            <td><a href="#" data-classID='<%=c.classID%>' data-term='Preliminary' data-toggle="modal" data-target="#postGrade">Input</a></td>
-                                            <%}else{%>
-                                             <td><a href="/grades/<%=c.classID%>/<%=c.Preliminary%>" download><%=c.Preliminary%></a> | <a href="#" data-classID='<%=c.classID%>' data-term='Preliminary' data-toggle="modal" data-target="#postGrade">Edit</a></td>
-                                            <%}%>
+                                            <td><%=c.idnumber%> <%=c.firstname%> <%=c.lastname%></
+                                           </td>
+                                           
+                                            <% if(c.Preliminary = null){%>
 
-                                            <%if(c.Midterms === null){%>
-                                            <td><a href="#" data-classID='<%=c.classID%>' data-term='Midterms' data-toggle="modal" data-target="#postGrade">Input</a></td>
-                                            <%}else{%>
-                                             <td><a href="/grades/<%=c.classID%>/<%=c.Midterms%>" download><%=c.Midterms%></a> | <a href="#" data-classID='<%=c.classID%>' data-term='Midterms' data-toggle="modal" data-target="#postGrade">Edit</a></td>
+                                            <%} else{%>
+                                              <td>
+                                                <input class="form-control" type="" name="">
                                             </td>
                                             <%}%>
-
-                                            <%if(c.Finals === null){%>
-                                            <td><a href="#" data-classID='<%=c.classID%>' data-term='Finals' data-toggle="modal" data-target="#postGrade">Input</a>
-                                           <%}else{%>
-                                            <td><a href="/grades/<%=c.classID%>/<%=c.Finals%>" download><%=c.Finals%></a> | <a href="#" data-classID='<%=c.classID%>' data-term='Finals' data-toggle="modal" data-target="#postGrade">Edit</a>
-                                            </td>  
-                                            <%}%>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         <%})%>
 
                                         </tr>
@@ -74,33 +63,8 @@
                                             <td>No records available.</td>
                                         </tr>
                                     <%}%>
-
                                     </tbody>
                                 </table>
-                                 <form ref='uploadForm' id='uploadForm' action='/uploadGrade' method='post' encType="multipart/form-data">
-                                <div class="modal fade" id="postGrade" tabindex="-1" role="dialog" aria-labelledby="postGrade" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                            <h4 class="modal-title" id="myModalLabel">Upload Grade</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                              <input type="text" name="term" value="Preliminary" class="form-control-plaintext form-control" readonly></input>
-                                              <label>Input Grade</label>
-                                                <input required type="file" name="grade" />
-                                            </div>
-                                           
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button type='submit' class="btn btn-success" name="classID">Upload</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </form>
                             </div>
                         </div>
                     </div>
@@ -110,16 +74,3 @@
     </div>
     <!-- CONTENT-WRAPPER SECTION END-->
 <%include partials/footer.ejs%>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('#postGrade').on('show.bs.modal',function(e){
-            var classID = $(e.relatedTarget).data('classid');
-            var term = $(e.relatedTarget).data('term');
-
-            $('button[name=classID]').val(classID);
-            $('input[name=term]').val(term);
-
-        });
-
-    })
-</script>

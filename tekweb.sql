@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 30, 2018 at 03:56 AM
--- Server version: 5.7.19
--- PHP Version: 5.6.31
+-- Generation Time: Jul 01, 2018 at 10:41 AM
+-- Server version: 5.7.21
+-- PHP Version: 5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -74,7 +74,14 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `status` varchar(10) NOT NULL DEFAULT 'active',
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`classID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `classes`
+--
+
+INSERT INTO `classes` (`classID`, `classCode`, `subject`, `genCode`, `studentCount`, `status`, `userID`) VALUES
+(1, '9425', 'Physics', 'asjfdlaq12312', 1, 'active', 8);
 
 -- --------------------------------------------------------
 
@@ -98,12 +105,20 @@ CREATE TABLE IF NOT EXISTS `departments` (
 DROP TABLE IF EXISTS `grades`;
 CREATE TABLE IF NOT EXISTS `grades` (
   `gradesID` int(11) NOT NULL AUTO_INCREMENT,
-  `Preliminary` varchar(100) DEFAULT NULL,
-  `Midterms` varchar(100) DEFAULT NULL,
-  `Finals` varchar(100) DEFAULT NULL,
+  `Preliminary` int(3) DEFAULT NULL,
+  `Midterms` int(3) DEFAULT NULL,
+  `Finals` int(3) DEFAULT NULL,
   `classID` int(11) NOT NULL,
+  `studentID` int(11) NOT NULL,
   PRIMARY KEY (`gradesID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grades`
+--
+
+INSERT INTO `grades` (`gradesID`, `Preliminary`, `Midterms`, `Finals`, `classID`, `studentID`) VALUES
+(1, NULL, NULL, NULL, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -133,8 +148,16 @@ CREATE TABLE IF NOT EXISTS `studentclasses` (
   `status` varchar(100) NOT NULL,
   `studentID` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `type` varchar(25) NOT NULL DEFAULT 'joined',
   PRIMARY KEY (`regstdID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `studentclasses`
+--
+
+INSERT INTO `studentclasses` (`regstdID`, `classID`, `status`, `studentID`, `timestamp`, `type`) VALUES
+(1, 1, 'registered', 9, '2018-07-01 04:56:21', 'joined');
 
 -- --------------------------------------------------------
 
@@ -165,7 +188,15 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `action` varchar(250) NOT NULL,
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`transID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`transID`, `timestamp`, `action`, `userID`) VALUES
+(1, '2018-07-01 04:06:52', 'Class 9425 has been created.', 8),
+(2, '2018-07-01 04:56:21', 'Joined class Physics', 9);
 
 -- --------------------------------------------------------
 
@@ -193,7 +224,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`userID`, `firstname`, `lastname`, `idnumber`, `password`, `type`, `course`, `year`, `status`, `department`) VALUES
-(1, 'admin', 'admin', 1, 'admin', 'admin', '', 0, 'active', NULL);
+(1, 'admin', 'admin', 1, 'admin', 'admin', '', 0, 'active', NULL),
+(8, 'teacher', 'teacher', 123, 'teacher', 'Teacher', NULL, NULL, 'active', NULL),
+(9, 'student', 'student', 2, 'student', 'Student', NULL, NULL, 'active', NULL),
+(10, 'jean', 'dac', 123, 'je', 'Teacher', NULL, NULL, 'active', NULL),
+(11, 'hen', 'drix', 21111, '123', 'Student', NULL, NULL, 'active', NULL),
+(12, 'dac', 'yas', 12345, '123', 'Student', NULL, NULL, 'active', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

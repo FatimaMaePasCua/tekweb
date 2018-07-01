@@ -98,9 +98,6 @@ app.post('/createClass',function(req, res){
 
   	connection.query(sql,[classCode,subject,genCode,userID], function (err, result) {
 		if (err) throw err;
-		var sql = "INSERT INTO grades (classID) VALUES (?)";
-  		connection.query(sql,[result.insertId], function (err, result) {
-			if (err) throw err;
 		var sql = "INSERT INTO transactions (action,userID) VALUES ('Class "+classCode+" has been created.',?)";
   		connection.query(sql,[userID],function (err, result) {
 			if (err) throw err;
@@ -108,24 +105,25 @@ app.post('/createClass',function(req, res){
 			});
 		});
 	});
-});
 
-app.get('/grades',function(req, res){
+app.get('/grades/:classID',function(req, res){
 	var userID = req.session.userID;
+	var classID = req.params.classID;
 	if(userID){
-		var sql = `Select grades.*,grades.classID,classCode from grades 
-		inner join classes on grades.classID = classes.classID 
-		where userID = ? AND status = 'active'`;
+		var sql = `SELECT grades.*,classCode,firstname,lastname,idnumber FROM grades 
+					inner join users on users.userID = studentID
+					inner join classes on classes.classID = grades.classID
+					where classes.classID = ?`;
 
-  		connection.query(sql,[userID], function (err, result) {
+  		connection.query(sql,[classID], function (err, result) {
 		if (err) throw err;
-			res.render('grades',{classes: result});
+		console.log(result);
+			res.render('grades',{grades: result});
 		});
 	}else{
 		res.redirect('/logout')
 	}
 });
-
 app.get('/announcements',function(req, res){
 	var userID = 8;
 	if(userID){
@@ -204,15 +202,10 @@ app.get('/accept/:classID/:studentID',function(req, res){
 		var sql2 = "Update classes set studentCount=studentCount+1 where classID = ?";
 		connection.query(sql2,[classID], function (err, result) {
 			if (err) throw err;
-		var sql2 = "Select * from classes inner join studentclasses on studentclasses.classID = classes.classID inner join users on studentclasses.studentID = users.userID where studentclasses.classID =?";
-		connection.query(sql2,[classID], function (err, result) {
-			if (err) throw err;
-			var classes = result[0];
-		var sql2 = "Insert into transactions (action,userID) values('Student "+classes.idnumber+" has been accepted in class "+classes.classCode+".',?)";
-		connection.query(sql2,[classID], function (err, result) {
+		var sql2 = "Insert into grades (classID,studentID) values(?,?)";
+		connection.query(sql2,[classID,studentID], function (err, result) {
 			if (err) throw err;
 			res.redirect('/students/'+classID);
-		});
 		});
 	});
 	});

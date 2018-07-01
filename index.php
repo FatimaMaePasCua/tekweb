@@ -5,7 +5,7 @@ if(isset($_SESSION['username'])){
         header('Location:admin/index.php');
     } elseif ($_SESSION['type'] == "Teacher") {
         echo $_SESSION['userID'];
-        header('Location: //192.168.22.3:3000/classes');
+        header('Location: //localhost:3000/classes');
     } elseif ($_SESSION['type'] == "Student") {
         header('Location: //localhost:8080/classes.jsp?ayd=' . $_SESSION['userID']);
     }else {
