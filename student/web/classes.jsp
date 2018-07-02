@@ -128,9 +128,9 @@
                                                         out.println("<tr><td>" + rs.getString("classCode"));
                                                         out.println("</td><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
-                                                        out.println("</td><td>" +  rs.getInt("studentclasses.classID"));
-                                                        out.println("</td><td>" +  rs.getInt("studentclasses.classID"));
-                                                        out.println("</td><td>" +  rs.getInt("studentclasses.classID"));
+                                                        out.println("</td><td>" +  rs.getInt("Preliminary"));
+                                                        out.println("</td><td>" +  rs.getInt("Midterms"));
+                                                        out.println("</td><td>" +  rs.getInt("Finals"));
                                                         out.println("</td></tr>");
                                                         
                                                     }
