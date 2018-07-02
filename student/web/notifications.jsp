@@ -158,6 +158,7 @@
                                         <th>Subject</th>
                                         <th>Class Code</th>
                                         <th>Instructor</th>
+                                        <th>Instructions</th>
                                         <th>Assignment</th>
                                         <th>Deadline</th>
                                         <th>Submit</th>
@@ -174,9 +175,11 @@
                                                         out.println("<tr><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("classCode"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
+                                                        out.println("</td><td>" + rs.getString("instructions"));
                                                         out.println("</td><td>" + "<a download href=http://192.168.7.14/tekweb/teacher/uploads/assignments/"+ rs.getInt("assignments.classID") + "/" + rs.getString("filename") + ">" + rs.getString("filename") + "</a>");
                                                         out.println("</td><td>" + rs.getString("dateOfSubmission"));
                                                         out.println("</td><td>" + "<button data-assignID=" +rs.getInt("assignments.assignID")+" data-id=" +rs.getInt("assignments.classID")+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#upload'>Upload Assignment</button>");
+                                                        
                                                         out.println("</td></tr>");
                                                         
                                                     }
