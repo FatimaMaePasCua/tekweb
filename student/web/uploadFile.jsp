@@ -106,12 +106,15 @@
                 ResultSet rs = st.executeQuery(queryString);
                 rs.first();
                 
-                String tr = "INSERT INTO transactions(action,userID) VALUES(?,?)";
+                int cid = Integer.parseInt(classID);
+                
+                String tr = "INSERT INTO transactions(action,userID,classID) VALUES(?,?,?)";
                 ps = null;
                 String act = "Submitted Assignment for class " + rs.getString("subject");
                 ps = con.prepareStatement(tr);
                 ps.setString(1, act);
                 ps.setInt(2, ayd);
+                ps.setInt(3, cid);
                 ps.executeUpdate();
 
                      
