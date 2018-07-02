@@ -207,6 +207,7 @@ app.get('/students/:classID',function(req, res){
 app.get('/accept/:classID/:studentID',function(req, res){
 	var classID = req.params.classID;
 	var studentID = req.params.studentID;
+	var userID = req.session.userID;
 
 	var sql = "Update studentclasses set status='registered' where classID = ? AND studentID=?";
 
@@ -217,8 +218,11 @@ app.get('/accept/:classID/:studentID',function(req, res){
 			if (err) throw err;
 		var sql2 = "Insert into grades (classID,studentID) values(?,?)";
 		connection.query(sql2,[classID,studentID], function (err, result) {
+		var sql2 = "Insert into transactions (action,userID,classID) values('Student "+classes.idnumber+" has been accepted in class "+classes.classCode+".',?,?)";
+		connection.query(sql2,[userID,classID], function (err, result) {
 			if (err) throw err;
 			res.redirect('/students/'+classID);
+		});
 		});
 	});
 	});
@@ -262,14 +266,11 @@ app.get('/reject/:classID/:studentID',function(req, res){
 		connection.query(sql2,[classID], function (err, result) {
 			if (err) throw err;
 			var classes = result[0];
-		var sql2 = "Insert into transactions (action,userID) values('Student "+classes.idnumber+" has been rejected in class "+classes.classCode+".',?)";
-		connection.query(sql2,[classID], function (err, result) {
 			if (err) throw err;
 		res.redirect('/students/'+classID);
 	});
 	});
 	});
-});
 app.post('/upload', function(req, res) {
 	var number;
 	var dateOfSubmission = req.body.date;
