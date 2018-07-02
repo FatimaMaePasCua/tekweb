@@ -1,0 +1,96 @@
+<%include partials/header.ejs%>
+  <section class="menu-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="navbar-collapse collapse ">
+                        <ul id="menu-top" class="nav navbar-nav navbar-left">
+                            <li><a href="/classes">Back to Classes</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- MENU SECTION END-->
+    <div class="content-wrapper">
+        <div class="container">
+              <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-head-line"><%=grades[0].classCode%> <%=grades[0].subject%>  </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                           <!--   Basic Table  -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Grades
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Student</th>
+                                            <th>Preliminary</th>
+                                            <th>Midterms </th>
+                                            <th>Tentative Final</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            		<% if(grades.length !== 0){ grades.forEach(function(c){%>
+                                        <tr>
+                                            <form method="POST" action="/uploadGrade/<%=c.classID%>/<%=c.studentID%>">
+                                            <td><%=c.idnumber%> <%=c.firstname%> <%=c.lastname%></
+                                           </td>
+                                           
+                                            <% if(!c.Preliminary){%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" name="prelims">
+                                            </td>
+                                            <%} else{%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" value="<%=c.Preliminary%>" name="prelims">
+                                            </td>
+                                            <%}%>
+                                            <% if(!c.Midterms){%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" name="midterms">
+                                            </td>
+                                            <%} else{%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" value="<%=c.Midterms%>" name="midterms">
+                                            </td>
+                                            <%}%>
+                                            <% if(!c.Finals){%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" name="finals">
+                                            </td>
+                                            <%} else{%>
+                                            <td width="10%">
+                                                <input class="form-control" type="number" value="<%=c.Finals%>" name="finals">
+                                            </td>
+                                            <%}%>
+                                            <td width="20%"><button name="classID" class="btn btn-sm btn-success">Save</button></td>
+                                        <%})%>
+                                        </form>
+                                        </tr>
+							        	<% }else{%>
+							        	<tr>
+                                            <td>No records available.</td>
+                                        </tr>
+                                    <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <!-- CONTENT-WRAPPER SECTION END-->
+<%include partials/footer.ejs%>
