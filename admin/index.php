@@ -149,7 +149,7 @@ if($_SESSION['type'] != 'admin' ){
                                     <?php
                                         require 'db.php';
 
-                                        $sql = "SELECT * FROM users WHERE status = 'pending'";
+                                        $sql = "SELECT * FROM users WHERE status = 'pending' ";
                                         $res = $conn->query($sql);
                                         while ($row = $res->fetch_assoc()){
                                             echo "<tr>";
@@ -201,7 +201,7 @@ if($_SESSION['type'] != 'admin' ){
                                     <?php
                                     require 'db.php';
 
-                                    $sql = "SELECT * FROM users WHERE status = 'active'";
+                                    $sql = "SELECT * FROM users WHERE status = 'active' AND type != 'admin'";
                                     $res = $conn->query($sql);
                                     while ($row = $res->fetch_assoc()){
                                         echo "<tr>";
