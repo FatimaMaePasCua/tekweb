@@ -1,0 +1,98 @@
+<%include partials/header.ejs%>
+  <section class="menu-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="navbar-collapse collapse ">
+                        <ul id="menu-top" class="nav navbar-nav navbar-left">
+                            <li><a href="/classes">Back to Classes</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- MENU SECTION END-->
+    <div class="content-wrapper">
+        <div class="container">
+              <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-head-line">Students </h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        <a href="/inviteStudents/<%=classID%>" class="btn btn-success">Invite Students</a> <br>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Number</th>
+                                            <th>Name </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            		<% if(registered.length !== 0){ registered.forEach(function(c){%>
+                                        <tr>
+                                            <td><%=c.idnumber%></td>
+                                            <td><%=c.name%></td>
+                                        </tr>
+							        	<% })}else{%>
+							        	<tr>
+                                            <td>No Registered Students.</td>
+                                        </tr>
+                               		<%}%>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Pending Students
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                              <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Number</th>
+                                            <th>Name </th>
+                                            <th>Mange</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% if(pending.length !== 0){ pending.forEach(function(c){%>
+                                        <tr>
+                                            <td><%=c.idnumber%></td>
+                                            <td><%=c.name%></td>
+                                            <td>
+                                                <a href="/accept/<%=c.classID%>/<%=c.studentID%>">Accept Student</a><br>
+                                                <a href="/reject/<%=c.classID%>/<%=c.studentID%>">Reject Sudent</a></td>
+                                        </tr>
+                                        <% })}else{%>
+                                        <tr>
+                                            <td>No Registered Students.</td>
+                                        </tr>
+                                    <%}%>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                </div>
+        </div>
+    </div>
+    <!-- CONTENT-WRAPPER SECTION END-->
+<%include partials/footer.ejs%>

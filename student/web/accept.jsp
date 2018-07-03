@@ -45,6 +45,13 @@
          ps = con.prepareStatement(tr);
          ps.setString(1, act);
          ps.setInt(2, ayd);
+         ps.executeUpdate();
+         
+      String gr = "INSERT INTO grades(classID,studentID) VALUES(?,?)";
+         ps = null;
+         ps = con.prepareStatement(gr);
+         ps.setInt(1, vid);
+         ps.setInt(2, ayd);
          ps.executeUpdate();    
          
          
