@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['username'])){
+if (!isset($_SESSION['username'])) {
     $m = "Please Login first!";
     echo "
             <script type = 'text/javascript'>
@@ -9,7 +9,7 @@ if(!isset($_SESSION['username'])){
             </script>
          ";
 }
-if($_SESSION['type'] != 'admin' ){
+if ($_SESSION['type'] != 'admin') {
     $m = "Unauthorize Success!";
     echo "
                 <script type = 'text/javascript'>
@@ -37,9 +37,12 @@ if($_SESSION['type'] != 'admin' ){
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <!-- CSS Files -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet"/>
     <link href="assets/css/now-ui-dashboard.css?v=1.1.0" rel="stylesheet"/>
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="assets/demo/demo.css" rel="stylesheet"/>
+
+
 </head>
 
 <body class="">
@@ -49,7 +52,7 @@ if($_SESSION['type'] != 'admin' ){
           Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
       -->
         <div class="logo">
-            <a  class="simple-text logo-normal text-center">
+            <a class="simple-text logo-normal text-center">
                 <?php
                 echo strtoupper($_SESSION['username']);
                 ?>
@@ -117,77 +120,79 @@ if($_SESSION['type'] != 'admin' ){
         <!-- End Navbar -->
         <div class="panel-header panel-header-sm">
         </div>
+
+
         <div class="content">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title text-center">Teacher Activities</h4>
                         </div>
-                        <div class="card-body">
-                            <div class="">
-                                <table class="table">
-                                    <thead class=" text-primary">
-                                    <th>Activity</th>
-                                    <th>User</th>
-                                    <th>Date</th>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    require "db.php";
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                               style="width:100%">
+                            <thead>
+                            <tr>
+                                <th style="width:50%">Activity</th>
+                                <th style="width:100%">User</th>
+                                <th style="width:100%">Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            require "db.php";
 
-                                    $sql = "SELECT * FROM transactions JOIN users ON transactions.userID = users.userID WHERE type = 'teacher'";
-                                    $res = $conn->query($sql);
-                                    while($row = $res->fetch_assoc()){
-                                        echo "<tr><td>" .$row['action'] . "</td>".
-                                                "<td>" . $row['firstname'] ."</td>".
-                                                "<td>" . $row['timestamp'] ."</td></tr>";
-                                    }
-                                    ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                            $sql = "SELECT * FROM transactions JOIN users ON transactions.userID = users.userID WHERE type = 'teacher'";
+                            $res = $conn->query($sql);
+                            while ($row = $res->fetch_assoc()) {
+                                echo "<tr><td>" . $row['action'] . "</td>" .
+                                    "<td>" . $row['firstname'] . "</td>" .
+                                    "<td>" . $row['timestamp'] . "</td></tr>";
+                            }
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title text-center">Student Activities</h4>
                         </div>
-                        <div class="card-body">
-                            <div class="">
-                                <table class="table">
-                                    <thead class=" text-primary">
-                                    <th>Activity</th>
-                                    <th>User</th>
-                                    <th>Date</th>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    require "db.php";
+                        <table id="example1" class="table  table-bordered dt-responsive nowrap"
+                               style="width:100%">
+                            <thead>
+                            <tr>
+                                <th style="width:50%">Activity</th>
+                                <th style="width:100%">User</th>
+                                <th style="width:100%">Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            require "db.php";
 
-                                    $sql = "SELECT * FROM transactions JOIN users ON transactions.userID = users.userID WHERE type = 'student'";
-                                    $res = $conn->query($sql);
-                                    while($row = $res->fetch_assoc()){
-                                        echo "<tr><td>" .$row['action'] . "</td>".
-                                            "<td>" . $row['firstname'] ."</td>".
-                                            "<td>" . $row['timestamp'] ."</td></tr>";
-                                    }
-                                    ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                            $sql = "SELECT * FROM transactions JOIN users ON transactions.userID = users.userID WHERE type = 'student'";
+                            $res = $conn->query($sql);
+                            while ($row = $res->fetch_assoc()) {
+                                echo "<tr><td>" . $row['action'] . "</td>" .
+                                    "<td>" . $row['firstname'] . "</td>" .
+                                    "<td>" . $row['timestamp'] . "</td></tr>";
+                            }
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+
         </div>
 
     </div>
 </div>
 <!--   Core JS Files   -->
 <script src="assets/js/core/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="assets/js/core/popper.min.js"></script>
 <script src="assets/js/core/bootstrap.min.js"></script>
 <!--  Google Maps Plugin    -->
@@ -199,7 +204,19 @@ if($_SESSION['type'] != 'admin' ){
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="assets/js/now-ui-dashboard.min.js?v=1.1.0" type="text/javascript"></script>
 <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
-<script src="assets/demo/demo.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+
+    $(document).ready(function () {
+        $('#example1').DataTable();
+    });
+</script>
 </body>
 
 </html>
