@@ -5,11 +5,7 @@ if(isset($_SESSION['username'])){
         header('Location:admin/index.php');
     } elseif ($_SESSION['type'] == "Teacher") {
         echo $_SESSION['userID'];
-<<<<<<< HEAD
-        header('Location: //192.168.5.40:3000/classes');
-=======
         header('Location: //localhost:3000/classes');
->>>>>>> 3278babb10ffff50a411fb089528096584c43085
     } elseif ($_SESSION['type'] == "Student") {
         header('Location: //localhost:8080/classes.jsp?ayd=' . $_SESSION['userID']);
     }else {
