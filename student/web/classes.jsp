@@ -112,6 +112,7 @@
                                         <th>Instructor</th>
                                         <th>Prelim Grade</th>
                                         <th>Midterm Grade</th>
+                                        <th>Tentative Final Grade</th>
                                         <th>Final Grade</th>
                                         </thead>
                                         <tbody>
@@ -119,7 +120,7 @@
                                                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tekweb","root","");
                                                 Statement st = con.createStatement();
                                                 Integer id =(Integer) session.getAttribute("ayd");
-                                                ResultSet rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID JOIN users ON classes.userID = users.userID JOIN grades ON studentclasses.classID = grades.classID WHERE studentclasses.studentID = '" + id + "' AND studentclasses.status = 'registered'");
+                                                ResultSet rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID JOIN users ON classes.userID = users.userID JOIN grades ON studentclasses.classID = grades.classID WHERE studentclasses.studentID = '" + id + "' AND studentclasses.status = 'registered' AND classes.status='active'");
                                                 if(!rs.next()){
                                                     out.print("No Classes Yet");
                                                 }else{
@@ -131,6 +132,7 @@
                                                         out.println("</td><td>" +  rs.getInt("Preliminary"));
                                                         out.println("</td><td>" +  rs.getInt("Midterms"));
                                                         out.println("</td><td>" +  rs.getInt("Finals"));
+                                                        out.println("</td><td>" +  rs.getInt("FinalGrade"));
                                                         out.println("</td></tr>");
                                                         
                                                     }

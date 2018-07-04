@@ -39,12 +39,13 @@
          ps.setInt(3, ayd);
          ps.executeUpdate();
          
-     String tr = "INSERT INTO transactions(action,userID) VALUES(?,?)";
+     String tr = "INSERT INTO transactions(action,userID,classID) VALUES(?,?,?)";
          ps = null;
          String act = "Accepted Invitation to join " + rs.getString("subject");
          ps = con.prepareStatement(tr);
          ps.setString(1, act);
          ps.setInt(2, ayd);
+         ps.setInt(3, rs.getInt("classID"));
          ps.executeUpdate();
          
       String gr = "INSERT INTO grades(classID,studentID) VALUES(?,?)";

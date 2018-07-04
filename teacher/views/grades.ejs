@@ -18,11 +18,11 @@
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line"><%=grades[0].classCode%> <%=grades[0].subject%>  </h1>
+                        <h1 class="page-head-line"><%=classC.classCode%> <%=classC.subject%>  </h1>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12"> 
                            <!--   Basic Table  -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -37,6 +37,7 @@
                                             <th>Preliminary</th>
                                             <th>Midterms </th>
                                             <th>Tentative Final</th>
+                                            <th>Final Grade</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -49,29 +50,38 @@
                                            
                                             <% if(!c.Preliminary){%>
                                             <td width="10%">
-                                                <input class="form-control" type="number" name="prelims">
+                                                <input min="65" max="99" class="form-control" type="number" name="prelims">
                                             </td>
                                             <%} else{%>
                                             <td width="10%">
-                                                <input class="form-control" type="number" value="<%=c.Preliminary%>" name="prelims">
+                                                <input min="65" max="99" class="form-control" type="number" value="<%=c.Preliminary%>" name="prelims">
                                             </td>
                                             <%}%>
                                             <% if(!c.Midterms){%>
                                             <td width="10%">
-                                                <input class="form-control" type="number" name="midterms">
+                                                <input min="65" max="99" class="form-control" type="number" name="midterms">
                                             </td>
                                             <%} else{%>
                                             <td width="10%">
-                                                <input class="form-control" type="number" value="<%=c.Midterms%>" name="midterms">
+                                                <input min="65" max="99" class="form-control" type="number" value="<%=c.Midterms%>" name="midterms">
                                             </td>
                                             <%}%>
                                             <% if(!c.Finals){%>
                                             <td width="10%">
-                                                <input class="form-control" type="number" name="finals">
+                                                <input min="65" max="99" class="form-control" type="number" name="finals">
                                             </td>
                                             <%} else{%>
                                             <td width="10%">
-                                                <input class="form-control" type="number" value="<%=c.Finals%>" name="finals">
+                                                <input min="65" max="99" class="form-control" type="number" value="<%=c.Finals%>" name="finals">
+                                            </td>
+                                            <%}%>
+                                            <% if(!c.Finals){%>
+                                            <td>
+                                                <p>Not yet submitted.</p>
+                                            </td>
+                                            <%} else{%>
+                                            <td>
+                                                <p><%=c.FinalGrade%></p>
                                             </td>
                                             <%}%>
                                             <td width="20%"><button name="classID" class="btn btn-sm btn-success">Save</button></td>

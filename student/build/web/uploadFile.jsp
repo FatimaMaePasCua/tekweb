@@ -14,12 +14,14 @@
    ServletContext context = pageContext.getServletContext();
    String a = request.getParameter("d");
    Integer ayd =(Integer) session.getAttribute("ayd");
+   String realPath = getServletContext().getRealPath("/").replace("\\student\\build\\web",""); 
+
    
    
    String classID = request.getParameter("id");
    String assignID = request.getParameter("assignID");
    
-   String filePath = "C:\\wamp64\\www\\tekweb\\teacher\\uploads\\submissions\\" + classID + "\\" + assignID + "\\";
+   String filePath = realPath+"teacher\\uploads\\submissions\\" + classID + "\\" + assignID + "\\";
     // if the directory does not exist, create it
    File dir = new File(filePath);
    
@@ -90,29 +92,45 @@
                         "root", "");
                  session = request.getSession();
                 Integer id =(Integer) session.getAttribute("ayd");
+                
+                String qo = "SELECT * FROM submissions WHERE studentID = '" + id +"' AND assignID = '" + assignID +"'";
+                Statement stt = con.createStatement();
+                ResultSet rss = stt.executeQuery(qo);
+                
+                if(rss.next() == false){
+                    String sql = "INSERT INTO submissions(assignID,studentID,filename) VALUES(?,?,?)";
+                    PreparedStatement ps = null;
+                    ps = con.prepareStatement(sql);
+                    ps.setInt(1, Integer.parseInt(assignID));
+                    ps.setInt(2, id);
+                    ps.setString(3, fileName);
+                    ps.executeUpdate();
 
-                String sql = "INSERT INTO submissions(assignID,studentID,filename) VALUES(?,?,?)";
-                PreparedStatement ps = null;
-                ps = con.prepareStatement(sql);
-                ps.setInt(1, Integer.parseInt(assignID));
-                ps.setInt(2, id);
-                ps.setString(3, fileName);
-                ps.executeUpdate();
+                    String queryString = "SELECT * FROM classes WHERE classID = '" + classID + "'";
+
+
+                    Statement st = con.createStatement();
+                    ResultSet rs = st.executeQuery(queryString);
+                    rs.first();
+
+                    int cid = Integer.parseInt(classID);
+
+                    String tr = "INSERT INTO transactions(action,userID,classID) VALUES(?,?,?)";
+                    ps = null;
+                    String act = "Submitted Assignment for class " + rs.getString("subject");
+                    ps = con.prepareStatement(tr);
+                    ps.setString(1, act);
+                    ps.setInt(2, ayd);
+                    ps.setInt(3, cid);
+                    ps.executeUpdate();
+                }else{
+                    String sqz = "UPDATE submissions SET filename = '" + fileName + "' WHERE subID = '" + rss.getInt("subID") + "'";
+                    PreparedStatement ps = null;
+                        ps = con.prepareStatement(sqz);
+                        ps.executeUpdate();
+                }
+
                 
-                String queryString = "SELECT * FROM classes WHERE classID = '" + classID + "'";
-     
-     
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(queryString);
-                rs.first();
-                
-                String tr = "INSERT INTO transactions(action,userID) VALUES(?,?)";
-                ps = null;
-                String act = "Submitted Assignment for class " + rs.getString("subject");
-                ps = con.prepareStatement(tr);
-                ps.setString(1, act);
-                ps.setInt(2, ayd);
-                ps.executeUpdate();
 
                      
                out.println("<script type=\"text/javascript\">");

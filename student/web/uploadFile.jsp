@@ -14,12 +14,14 @@
    ServletContext context = pageContext.getServletContext();
    String a = request.getParameter("d");
    Integer ayd =(Integer) session.getAttribute("ayd");
+   String realPath = getServletContext().getRealPath("/").replace("\\student\\build\\web",""); 
+
    
    
    String classID = request.getParameter("id");
    String assignID = request.getParameter("assignID");
    
-   String filePath = "C:\\wamp64\\www\\tekweb\\teacher\\uploads\\submissions\\" + classID + "\\" + assignID + "\\";
+   String filePath = realPath+"teacher\\uploads\\submissions\\" + classID + "\\" + assignID + "\\";
     // if the directory does not exist, create it
    File dir = new File(filePath);
    
@@ -90,18 +92,6 @@
                         "root", "");
                  session = request.getSession();
                 Integer id =(Integer) session.getAttribute("ayd");
-<<<<<<< HEAD
-
-                String sql = "INSERT INTO submissions(assignID,studentID,filename) VALUES(?,?,?)";
-                PreparedStatement ps = null;
-                ps = con.prepareStatement(sql);
-                ps.setInt(1, Integer.parseInt(assignID));
-                ps.setInt(2, id);
-                ps.setString(3, fileName);
-                ps.executeUpdate();
-=======
-                
->>>>>>> 3278babb10ffff50a411fb089528096584c43085
                 
                 String qo = "SELECT * FROM submissions WHERE studentID = '" + id +"' AND assignID = '" + assignID +"'";
                 Statement stt = con.createStatement();

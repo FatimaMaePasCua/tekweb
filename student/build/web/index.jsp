@@ -3,7 +3,7 @@
 
 
 
-    response.sendRedirect("http://192.168.7.14/tekweb");
+    response.sendRedirect("http://localhost/tekweb");
 
 
 

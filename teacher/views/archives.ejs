@@ -1,0 +1,121 @@
+<%include partials/header.ejs%>
+<section class="menu-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="navbar-collapse collapse ">
+                    <ul id="menu-top" class="nav navbar-nav navbar-right">
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/classes">Classes</a></li>
+                        <li><a class="menu-top-active"  href="/archivedClasses">Arhived Classes</a></li>
+                        <li><a href="/announcements">Announcements</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- MENU SECTION END-->
+<div class="content-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-head-line">Classes </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+         <!--   Basic Table  -->
+         <div class="panel panel-default">
+            <div class="panel-heading">
+                Archived
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Class Code</th>
+                                <th>Code</th>
+                                <th>Subject </th>
+                                <th># of students enrolled </th>
+                                <th>Manage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <% if(classes.length !== 0){ classes.forEach(function(c){%>
+                          <tr>
+                            <td><%=c.classCode%></td>
+                            <td><%=c.genCode%></td>
+                            <td><%=c.subject%></td>
+                            <td><%=c.studentCount%></td>
+                           <td>
+                            <a href='#' data-id="<%=c.classID%>" data-classCode="<%=c.classCode%>" data-toggle="modal" data-target="#deleteConfirmation">Revert</a></td>
+                        </tr>
+                        <% })}else{%>
+                        <tr>
+                            <td>No records available.</td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<form method="POST" action='/revert'>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Archive Class</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to revert class <span id="classCode"></span> ?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" name="classID" class="btn btn-primary">Revert</button>
+    </div>
+</div>
+</div>
+</div>
+</form>
+<!-- CONTENT-WRAPPER SECTION END-->
+<%include partials/footer.ejs%>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#postAnnouncement').on('show.bs.modal',function(e){
+            var classID = $(e.relatedTarget).data('classid');
+
+            $('button[name=classID]').val(classID);
+
+        });
+
+    })
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#deleteConfirmation').on('show.bs.modal',function(e){
+            var classCode = $(e.relatedTarget).data('classCode');
+            var id = $(e.relatedTarget).data('id');
+
+            $('#classCode').html(classCode);
+            $('button[name=classID]').val(id);
+
+        });
+
+    })
+</script>

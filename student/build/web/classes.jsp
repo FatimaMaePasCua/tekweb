@@ -112,6 +112,7 @@
                                         <th>Instructor</th>
                                         <th>Prelim Grade</th>
                                         <th>Midterm Grade</th>
+                                        <th>Tentative Final Grade</th>
                                         <th>Final Grade</th>
                                         </thead>
                                         <tbody>
@@ -119,7 +120,7 @@
                                                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tekweb","root","");
                                                 Statement st = con.createStatement();
                                                 Integer id =(Integer) session.getAttribute("ayd");
-                                                ResultSet rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID JOIN users ON classes.userID = users.userID JOIN grades ON studentclasses.classID = grades.classID WHERE studentclasses.studentID = '" + id + "' AND studentclasses.status = 'registered'");
+                                                ResultSet rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID JOIN users ON classes.userID = users.userID JOIN grades ON studentclasses.classID = grades.classID WHERE studentclasses.studentID = '" + id + "' AND studentclasses.status = 'registered' AND classes.status='active'");
                                                 if(!rs.next()){
                                                     out.print("No Classes Yet");
                                                 }else{
@@ -128,9 +129,10 @@
                                                         out.println("<tr><td>" + rs.getString("classCode"));
                                                         out.println("</td><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
-                                                        out.println("</td><td>" + "<a download href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + "/" + rs.getString("Preliminary") + ">" + rs.getString("Preliminary") + "</a>");
-                                                        out.println("</td><td>" + "<a download href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + "/" +rs.getString("Midterms") + ">" + rs.getString("Midterms") + "</a>");
-                                                        out.println("</td><td>" + "<a download href=http://localhost/tekweb/teacher/uploads/grades/"+ rs.getInt("studentclasses.classID") + "/" +rs.getString("Finals") + ">" + rs.getString("Finals") + "</a>");
+                                                        out.println("</td><td>" +  rs.getInt("Preliminary"));
+                                                        out.println("</td><td>" +  rs.getInt("Midterms"));
+                                                        out.println("</td><td>" +  rs.getInt("Finals"));
+                                                        out.println("</td><td>" +  rs.getInt("FinalGrade"));
                                                         out.println("</td></tr>");
                                                         
                                                     }
@@ -152,7 +154,7 @@
                                             
              <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-header card-header-primary">
                                 <h4 class="card-title text-center">Class Invitations</h4>
@@ -164,11 +166,12 @@
                                         <th>Class Code</th>
                                         <th>Subject</th>
                                         <th>Instructor</th>
+                                        <th>Status</th>
                                         <th></th>
                                         </thead>
                                         <tbody>
                                             <%
-                                                rs = st.executeQuery("SELECT * FROM invitations JOIN classes ON invitations.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE invitations.studentID = '" + id + "' AND invitations.status = 'pending' ");
+                                                rs = st.executeQuery("SELECT * FROM invitations JOIN classes ON invitations.classID = classes.classID JOIN users ON classes.userID = users.userID WHERE invitations.studentID = '" + id + "' AND invitations.status = 'pending'");
                                                 if(!rs.next()){
                                                     out.print("No Classes Yet");
                                                 }else{
@@ -178,6 +181,47 @@
                                                         out.println("</td><td>" + rs.getString("subject"));
                                                         out.println("</td><td>" + rs.getString("firstname"));
                                                         out.println("</td><td>" + "<a href='accept.jsp?rid=" + rs.getInt("invtnID") + "&vID=" + rs.getInt("invitations.classID")+ "' class='btn btn-success'><i class='material-icons'>done</i><a href='reject.jsp?rid=" + rs.getInt("invtnID") + "' class='btn btn-success'><i class='material-icons'>close</i>");
+                                                        out.println("</td></tr>");
+                                                        
+                                                    }
+                                                }
+                                            %>
+                                       
+                                        
+                                        </tbody>
+                                    </table>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                            <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title text-center">Class Requests</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                        <th>Class Code</th>
+                                        <th>Subject</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                rs = st.executeQuery("SELECT * FROM studentclasses JOIN classes ON studentclasses.classID = classes.classID WHERE studentclasses.studentID ='" + id + "' AND type = 'joined'");
+                                                if(!rs.next()){
+                                                    out.print("No Classes Yet");
+                                                }else{
+                                                    rs.beforeFirst();
+                                                    while(rs.next()){
+                                                        out.println("<tr><td>" + rs.getString("classCode"));
+                                                        out.println("</td><td>" + rs.getString("subject"));
+                                                        out.println("</td><td>" + rs.getString("status"));
+                                                        out.println("</td><td>" + rs.getString("timestamp"));
                                                         out.println("</td></tr>");
                                                         
                                                     }
